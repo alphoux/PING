@@ -6,6 +6,7 @@ import fr.epita.assistants.utils.Exceptions;
 import fr.epita.assistants.utils.ThrowingRunnable;
 import fr.epita.assistants.utils.ThrowingSupplier;
 
+import java.io.Console;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -20,7 +21,23 @@ public class NodeServiceClass implements NodeService {
 
     @Override
     public boolean delete(Node node) {
-        return false;
+        if (!node.isFile())
+        {
+            for (Node child : node.getChildren())
+            {
+                if (!delete(child))
+                {
+                    return false;
+                }
+            }
+        }
+       try {
+              Files.delete(node.getPath());
+         } catch (Exception e) {
+              System.out.println(e.getMessage());
+              return false;
+       }
+         return true;
     }
 
     @Override
@@ -47,6 +64,10 @@ public class NodeServiceClass implements NodeService {
                 return newNode;
             }
         });
+        if (newNode != null)
+        {
+            folder.getChildren().add(newNode);
+        }
         return newNode;
     }
 
