@@ -10,17 +10,17 @@ import java.util.List;
 import static fr.epita.assistants.myide.domain.entity.Mandatory.Aspects.*;
 
 public class AspectClass  implements Aspect {
-    Aspect.Type type;
+    Aspect.Type type_;
 
     public AspectClass (Type type) {
-        this.type = type;
+        this.type_ = type;
     }
 
     /**
      * @return The type of the Aspect.
      */
     public Aspect.Type getType() {
-        return type;
+        return type_;
     }
 
     /**
@@ -29,7 +29,7 @@ public class AspectClass  implements Aspect {
     public @NotNull List<Feature> getFeatureList() {
         List<Feature> features = new ArrayList<>();
 
-        switch (type) {
+        switch (type_) {
             case ANY:
                 // Base features for a project
                 for (Feature.Type feature : Mandatory.Features.Any.values()) {
