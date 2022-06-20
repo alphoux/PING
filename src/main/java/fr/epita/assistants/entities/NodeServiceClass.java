@@ -73,6 +73,16 @@ public class NodeServiceClass implements NodeService {
 
     @Override
     public Node move(Node nodeToMove, Node destinationFolder) {
-        return null;
+        Node movedNode = Exceptions.mayThrow(new ThrowingSupplier<Node, Exception>() {
+                @Override
+                public Node get() throws Exception {
+                    Path newPath = destinationFolder.getPath().resolve(nodeToMove.getPath().getFileName());
+                    Files.move(nodeToMove.getPath(), newPath);
+                    return new NodeClass(newPath);
+                }
+            });
+        if (movedNode != null)
+            destinationFolder.getChildren().add(movedNode);
+        return movedNode;
     }
 }
