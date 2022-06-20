@@ -16,7 +16,18 @@ public class NodeServiceClass implements NodeService {
 
     @Override
     public Node update(Node node, int from, int to, byte[] insertedContent) {
-        return null;
+        if (!node.isFile())
+            return node;
+
+        Exceptions.mayThrow(new ThrowingRunnable<Exception>() {
+            @Override
+            public void run() throws Exception {
+                String content = Files.readString(node.getPath());
+                content = content.substring(0, from) + new String(insertedContent) + content.substring(to);
+                Files.write(node.getPath(), content.getBytes());
+            }
+        });
+        return node;
     }
 
     @Override
