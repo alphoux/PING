@@ -12,7 +12,7 @@ public class ProjectServiceClass implements ProjectService {
 
     private NodeServiceClass nodeService_ = new NodeServiceClass();
     public Project load(Path root) {
-        Node rootNode = new NodeClass(root.toString());
+        Node rootNode = new NodeClass(root);
         ProjectClass project = new ProjectClass(rootNode);
         return project;
     }
