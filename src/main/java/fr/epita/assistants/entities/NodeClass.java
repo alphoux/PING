@@ -15,7 +15,7 @@ public class NodeClass implements Node {
     private Types type_;
 
     public NodeClass(Path path) {
-
+        path_ = path;
         File dir = new File(path.toString());
         File[] content = dir.listFiles();
         if (content == null) // it means it's a file
