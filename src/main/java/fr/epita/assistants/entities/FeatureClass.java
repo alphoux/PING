@@ -1,5 +1,7 @@
 package fr.epita.assistants.entities;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
@@ -26,7 +28,31 @@ public class FeatureClass implements Feature{
         this.type = type;
     }
     Type type;
+    
+    private void recursivefind(String tofind, Path dir) {
+        try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
+            for (Path file : stream) {
+                if (Files.isDirectory(file)) {
+                    recursivefind(tofind, file);
+                } else {
+                    BufferedReader br = new BufferedReader(new FileReader(file.toFile()));
+                    try {
+                        String line = br.readLine();
 
+                        while (line != null) {
+                            if (line.contains(tofind)) {
+                                System.out.println(file.toString()+" :" + line);
+                            }
+                            line = br.readLine();
+                        }
+                    } finally {
+                        br.close();
+                    }
+                }
+            }
+        } catch (IOException | DirectoryIteratorException x) {
+        }
+    }
     private void recursivedelete(List<String> files, Path dir) {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
             for (Path file : stream) {
@@ -59,7 +85,20 @@ public class FeatureClass implements Feature{
         }
         else if (type == Any.SEARCH)
         {
-
+            if (params.length == 0 && !(params[0] instanceof String))
+            {
+                return new ExecutionReport() {
+                    @Override
+                    public boolean isSuccess() {
+                        return false;
+                    }
+                };
+            }
+            else
+            {
+                String tofind = (String)params[0];
+                recursivefind(tofind, project.getRootNode().getPath());
+            }
         }
         else if (type == Git.ADD)
         {
