@@ -7,6 +7,7 @@ import fr.epita.assistants.myide.domain.entity.Project;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.HashSet;
 
 public class ProjectClass implements Project {
 
@@ -17,7 +18,7 @@ public class ProjectClass implements Project {
     public ProjectClass(Node rootNode, Set<Aspect> aspects) {
         rootNode_ = rootNode;
         aspects_ = aspects;
-
+        features_ = new HashSet<Feature>();
         try {
             for (Aspect aspect : aspects) {
                 features_.addAll(aspect.getFeatureList());

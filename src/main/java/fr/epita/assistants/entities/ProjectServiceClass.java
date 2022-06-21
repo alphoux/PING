@@ -13,7 +13,7 @@ public class ProjectServiceClass implements ProjectService {
     private NodeServiceClass nodeService_ = new NodeServiceClass();
     public Project load(Path root) {
         // Set the project root
-        Node rootNode = new NodeClass(root.toString());
+        Node rootNode = new NodeClass(root);
 
         // Set the project aspects
         Set<Aspect> aspects = new HashSet<Aspect>();
@@ -31,6 +31,6 @@ public class ProjectServiceClass implements ProjectService {
 
     @Override
     public NodeService getNodeService() {
-        return null;
+        return nodeService_;
     }
 }
