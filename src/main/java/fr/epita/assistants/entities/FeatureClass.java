@@ -38,12 +38,13 @@ public class FeatureClass implements Feature{
                     BufferedReader br = new BufferedReader(new FileReader(file.toFile()));
                     try {
                         String line = br.readLine();
-
+                        int i = 0;
                         while (line != null) {
                             if (line.contains(tofind)) {
-                                System.out.println(file.toString()+" :" + line);
+                                System.out.println(file.toString()+" Line nbr:"+i+" :" + line);
                             }
                             line = br.readLine();
+                            i++;
                         }
                     } finally {
                         br.close();
