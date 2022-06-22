@@ -4,6 +4,7 @@ import fr.epita.assistants.myide.domain.entity.*;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.util.HashSet;
 import java.util.Set;
@@ -18,6 +19,17 @@ public class ProjectServiceClass implements ProjectService {
         // Set the project aspects
         Set<Aspect> aspects = new HashSet<Aspect>();
         aspects.add(new AspectClass(Mandatory.Aspects.ANY));
+
+        //
+        String path = root.toString();
+        File pomCheck = new File(path + "/pom.xml");
+        if (pomCheck.exists()) {
+            aspects.add(new AspectClass(Mandatory.Aspects.MAVEN));
+        }
+        File gitCheck = new File(path + "/.git");
+        if (gitCheck.exists()) {
+            aspects.add(new AspectClass(Mandatory.Aspects.GIT));
+        }
 
         // Create the project
         ProjectClass project = new ProjectClass(rootNode, aspects);
