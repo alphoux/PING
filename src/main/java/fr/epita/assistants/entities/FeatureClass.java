@@ -134,35 +134,78 @@ public class FeatureClass implements Feature{
         }
         else if (type == Maven.COMPILE)
         {
-            Runtime.getRuntime().exec("mvn compile");
+            String args = "";
+            for (Object arg :params)
+            {
+                if (arg instanceof String)
+                {
+                    args += " " + arg;
+                }
+            }
+            Runtime.getRuntime().exec("mvn compile" + args);
         }
         else if (type == Maven.CLEAN)
         {
-            Runtime.getRuntime().exec("mvn clean");
+            String args = "";
+            for (Object arg : params) {
+                if (arg instanceof String) {
+                    args += " " + arg;
+                }
+            }
+            Runtime.getRuntime().exec("mvn clean" + args);
         }
         else if (type == Maven.TEST)
         {
-            Runtime.getRuntime().exec("mvn test");
-
+            String args = "";
+            for (Object arg : params) {
+                if (arg instanceof String) {
+                    args += " " + arg;
+                }
+            }
+            Runtime.getRuntime().exec("mvn test" + args);
         }
         else if (type == Maven.PACKAGE)
         {
-            Runtime.getRuntime().exec("mvn package");
+            String args = "";
+            for (Object arg : params) {
+                if (arg instanceof String) {
+                    args += " " + arg;
+                }
+            }
+            Runtime.getRuntime().exec("mvn package" + args);
 
         }
         else if (type == Maven.INSTALL)
         {
-            Runtime.getRuntime().exec("mvn install");
+            String args = "";
+            for (Object arg : params) {
+                if (arg instanceof String) {
+                    args += " " + arg;
+                }
+            }
+            Runtime.getRuntime().exec("mvn install" + args);
 
         }
         else if (type == Maven.EXEC)
         {
-            Runtime.getRuntime().exec("mvn exec");
+            String args = "";
+            for (Object arg : params) {
+                if (arg instanceof String) {
+                    args += " " + arg;
+                }
+            }
+            Runtime.getRuntime().exec("mvn exec"+args);
 
         }
         else if (type == Maven.TREE) 
         {
-            Runtime.getRuntime().exec("mvn tree");
+            String args = "";
+            for (Object arg : params) {
+                if (arg instanceof String) {
+                    args += " " + arg;
+                }
+            }
+            Runtime.getRuntime().exec("mvn tree" + args);
 
         }
         else
