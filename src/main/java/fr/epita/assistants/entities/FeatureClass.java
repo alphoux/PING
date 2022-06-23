@@ -15,6 +15,7 @@ import javax.validation.constraints.NotNull;
 
 import org.eclipse.jgit.api.AddCommand;
 import org.eclipse.jgit.api.CommitCommand;
+import org.eclipse.jgit.api.PullCommand;
 
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.myide.domain.entity.Mandatory.Features.Any;
@@ -28,6 +29,16 @@ public class FeatureClass implements Feature{
     
     FeatureClass(Type type){
         this.type = type;
+    }
+
+    String concat_args(Object[] params) {
+        String ret = "";
+        for (Object arg : params) {
+            if (ret instanceof String) {
+                ret += " " + arg;
+            }
+        }
+        return ret;
     }
     
     private void recursivefind(String tofind, Path dir) {
@@ -116,23 +127,15 @@ public class FeatureClass implements Feature{
         }
         else if (type == Git.PULL)
         {
-            String args = "";
-            for (Object arg :params)
-            {
-                if (arg instanceof String)
-                {
-                    args += " " + arg;
-                }
-            }
-            Runtime.getRuntime().exec("git pull" + args);
+            org.eclipse.jgit.api.Git git = org.eclipse.jgit.api.Git.open(new File(project.getRootNode().getPath()+"/.git"));
+            PullCommand pull = git.pull();
+            pull.call();
         }
         else if (type == Git.COMMIT)
         {
             org.eclipse.jgit.api.Git git = org.eclipse.jgit.api.Git.open(new File(project.getRootNode().getPath()+"/.git"));
             CommitCommand commit = git.commit();
-            if (params.length > 0 && params[0] instanceof String) {
-                commit.setMessage((String) params[0]);
-            }
+            commit.setMessage(concat_args(params));
             commit.call();
 
         }
@@ -143,78 +146,33 @@ public class FeatureClass implements Feature{
         }
         else if (type == Maven.COMPILE)
         {
-            String args = "";
-            for (Object arg :params)
-            {
-                if (arg instanceof String)
-                {
-                    args += " " + arg;
-                }
-            }
-            Runtime.getRuntime().exec("mvn compile" + args);
+            Runtime.getRuntime().exec("mvn compile" + concat_args(params));
         }
         else if (type == Maven.CLEAN)
         {
-            String args = "";
-            for (Object arg : params) {
-                if (arg instanceof String) {
-                    args += " " + arg;
-                }
-            }
-            Runtime.getRuntime().exec("mvn clean" + args);
+            Runtime.getRuntime().exec("mvn clean" + concat_args(params));
         }
         else if (type == Maven.TEST)
         {
-            String args = "";
-            for (Object arg : params) {
-                if (arg instanceof String) {
-                    args += " " + arg;
-                }
-            }
-            Runtime.getRuntime().exec("mvn test" + args);
+            Runtime.getRuntime().exec("mvn test" + concat_args(params));
         }
         else if (type == Maven.PACKAGE)
         {
-            String args = "";
-            for (Object arg : params) {
-                if (arg instanceof String) {
-                    args += " " + arg;
-                }
-            }
-            Runtime.getRuntime().exec("mvn package" + args);
+            Runtime.getRuntime().exec("mvn package" + concat_args(params));
 
         }
         else if (type == Maven.INSTALL)
         {
-            String args = "";
-            for (Object arg : params) {
-                if (arg instanceof String) {
-                    args += " " + arg;
-                }
-            }
-            Runtime.getRuntime().exec("mvn install" + args);
-
+            Runtime.getRuntime().exec("mvn install" + concat_args(params));
         }
         else if (type == Maven.EXEC)
         {
-            String args = "";
-            for (Object arg : params) {
-                if (arg instanceof String) {
-                    args += " " + arg;
-                }
-            }
-            Runtime.getRuntime().exec("mvn exec"+args);
+            Runtime.getRuntime().exec("mvn exec"+ concat_args(params));
 
         }
         else if (type == Maven.TREE) 
         {
-            String args = "";
-            for (Object arg : params) {
-                if (arg instanceof String) {
-                    args += " " + arg;
-                }
-            }
-            Runtime.getRuntime().exec("mvn tree" + args);
+            Runtime.getRuntime().exec("mvn tree" + concat_args(params));
 
         }
         else
