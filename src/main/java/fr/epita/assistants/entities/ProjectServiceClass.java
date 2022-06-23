@@ -38,7 +38,7 @@ public class ProjectServiceClass implements ProjectService {
 
     @Override
     public Feature.ExecutionReport execute(Project project, Feature.Type featureType, Object... params) {
-        return null;
+        return new FeatureClass(featureType).execute(project, params);
     }
 
     @Override

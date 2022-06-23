@@ -23,11 +23,12 @@ import fr.epita.assistants.myide.domain.entity.Mandatory.Features.Maven;
 import fr.epita.assistants.myide.domain.entity.Project;
 
 public class FeatureClass implements Feature{
-
+    
+    Type type;
+    
     FeatureClass(Type type){
         this.type = type;
     }
-    Type type;
     
     private void recursivefind(String tofind, Path dir) {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
@@ -54,13 +55,14 @@ public class FeatureClass implements Feature{
         } catch (IOException | DirectoryIteratorException x) {
         }
     }
+
     private void recursivedelete(List<String> files, Path dir) {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
             for (Path file : stream) {
                 if (Files.isDirectory(file)) {
                     recursivedelete(files, file);
                 } else {
-                    if (files.contains(file.toString())) {
+                    if (files.contains(file.getFileName().toString())) {
                         Files.delete(file);
                     }
                 }
@@ -82,7 +84,7 @@ public class FeatureClass implements Feature{
         {
             List<String> content_file = Files.lines(Paths.get(project.getRootNode().getPath()+ "/.myideignore")).collect(Collectors.toList());
             recursivedelete(content_file, project.getRootNode().getPath());
-            Runtime.getRuntime().exec("tar -czf dist.tar.gz " + project.getRootNode().getPath());
+            Runtime.getRuntime().exec("tar -czf "+ project.getRootNode().getPath().getFileName().toString() +".tar.gz " + project.getRootNode().getPath());
         }
         else if (type == Any.SEARCH)
         {
@@ -114,8 +116,15 @@ public class FeatureClass implements Feature{
         }
         else if (type == Git.PULL)
         {
-            org.eclipse.jgit.api.Git git = org.eclipse.jgit.api.Git.open(new File(project.getRootNode().getPath()+"/.git"));
-            git.pull().call();
+            String args = "";
+            for (Object arg :params)
+            {
+                if (arg instanceof String)
+                {
+                    args += " " + arg;
+                }
+            }
+            Runtime.getRuntime().exec("git pull" + args);
         }
         else if (type == Git.COMMIT)
         {
