@@ -41,11 +41,13 @@ public class AspectClass  implements Aspect {
                 for (Feature.Type feature : Mandatory.Features.Maven.values()) {
                     features.add(new FeatureClass(feature));
                 }
+                break;
             case GIT:
                 // Git specific features
                 for (Feature.Type feature : Mandatory.Features.Git.values()) {
                     features.add(new FeatureClass(feature));
                 }
+                break;
         }
 
         return features;
