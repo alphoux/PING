@@ -96,7 +96,7 @@ public class FeatureClass implements Feature{
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
             for (Path file : stream) {
                 for (String line : files) {
-                    if (file.equals(root + "/" + line)) {
+                    if (file.toString().equals(root + "/" + line)) {
                         if (Files.isDirectory(file)) {
                             Files.walk(file)
                                     .sorted(Comparator.reverseOrder())
