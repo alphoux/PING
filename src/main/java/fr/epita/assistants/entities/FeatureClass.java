@@ -1,15 +1,22 @@
 package fr.epita.assistants.entities;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.DirectoryIteratorException;
 import java.nio.file.DirectoryStream;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.validation.constraints.NotNull;
 
@@ -67,6 +74,23 @@ public class FeatureClass implements Feature{
         }
     }
 
+    private void exec_cmd(String cmd,String dir)
+    {
+        ProcessBuilder processBuilder = new ProcessBuilder();
+
+        processBuilder.command("/bin/sh","-c","cd " + dir + " && " + cmd + " && cd -");
+
+        try {
+            Process process = processBuilder.start();
+            
+            BufferedReader reader =
+                    new BufferedReader(new InputStreamReader(process.getInputStream()));
+            int exitCode = process.waitFor();
+        } catch (Exception e) {
+        } 
+    }
+
+
     private void recursivedelete(List<String> files, Path dir) {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
             for (Path file : stream) {
@@ -95,7 +119,25 @@ public class FeatureClass implements Feature{
         {
             List<String> content_file = Files.lines(Paths.get(project.getRootNode().getPath()+ "/.myideignore")).collect(Collectors.toList());
             recursivedelete(content_file, project.getRootNode().getPath());
-            Runtime.getRuntime().exec("tar -czf "+ project.getRootNode().getPath().getFileName().toString() +".tar.gz " + project.getRootNode().getPath());
+            final Path sourceDir = project.getRootNode().getPath();
+            String zipFileName = project.getRootNode().getPath().toString().concat(".zip");
+            
+            final ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(zipFileName));
+            Files.walkFileTree(sourceDir, new SimpleFileVisitor<Path>() {
+                @Override
+                public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
+                    try {
+                        Path targetFile = sourceDir.relativize(file);
+                        outputStream.putNextEntry(new ZipEntry(targetFile.toString()));
+                        byte[] bytes = Files.readAllBytes(file);
+                        outputStream.write(bytes, 0, bytes.length);
+                        outputStream.closeEntry();
+                    } catch (IOException e) {
+                    }
+                    return FileVisitResult.CONTINUE;
+                }
+            });
+            outputStream.close();
         }
         else if (type == Any.SEARCH)
         {
@@ -146,33 +188,33 @@ public class FeatureClass implements Feature{
         }
         else if (type == Maven.COMPILE)
         {
-            Runtime.getRuntime().exec("mvn compile" + concat_args(params));
+            exec_cmd("mvn compile" + concat_args(params),project.getRootNode().getPath().toString());
         }
         else if (type == Maven.CLEAN)
         {
-            Runtime.getRuntime().exec("mvn clean" + concat_args(params));
+            exec_cmd("mvn clean" + concat_args(params),project.getRootNode().getPath().toString());
         }
         else if (type == Maven.TEST)
         {
-            Runtime.getRuntime().exec("mvn test" + concat_args(params));
+            exec_cmd("mvn test" + concat_args(params),project.getRootNode().getPath().toString());
         }
         else if (type == Maven.PACKAGE)
         {
-            Runtime.getRuntime().exec("mvn package" + concat_args(params));
+            exec_cmd("mvn package" + concat_args(params),project.getRootNode().getPath().toString());
 
         }
         else if (type == Maven.INSTALL)
         {
-            Runtime.getRuntime().exec("mvn install" + concat_args(params));
+            exec_cmd("mvn install" + concat_args(params),project.getRootNode().getPath().toString());
         }
         else if (type == Maven.EXEC)
         {
-            Runtime.getRuntime().exec("mvn exec"+ concat_args(params));
+            exec_cmd("mvn exec"+ concat_args(params),project.getRootNode().getPath().toString());
 
         }
         else if (type == Maven.TREE) 
         {
-            Runtime.getRuntime().exec("mvn tree" + concat_args(params));
+            exec_cmd("mvn dependency:tree" + concat_args(params),project.getRootNode().getPath().toString());
 
         }
         else
