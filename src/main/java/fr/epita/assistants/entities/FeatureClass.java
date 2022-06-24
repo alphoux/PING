@@ -132,7 +132,7 @@ public class FeatureClass implements Feature{
             List<String> content_file = Files.lines(Paths.get(project.getRootNode().getPath()+ "/.myideignore")).collect(Collectors.toList());
             recursivedelete(content_file, project.getRootNode().getPath(),project.getRootNode().getPath());
             final Path sourceDir = project.getRootNode().getPath();
-            String zipFileName = "./" + project.getRootNode().getPath().getFileName().toString().concat(".zip");
+            String zipFileName = project.getRootNode().getPath().toString().concat(".zip");
             
             final ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(zipFileName));
             Files.walkFileTree(sourceDir, new SimpleFileVisitor<Path>() {
