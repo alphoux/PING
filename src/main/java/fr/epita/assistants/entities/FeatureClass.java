@@ -1,6 +1,8 @@
 package fr.epita.assistants.entities;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -116,7 +118,7 @@ public class FeatureClass implements Feature{
             }
         } catch (IOException | DirectoryIteratorException x) {
         }
-    }
+    } 
 
     @Override
     public @NotNull ExecutionReport execute(Project project, Object... params) {
@@ -139,7 +141,7 @@ public class FeatureClass implements Feature{
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
                     try {
-                        Path targetFile = sourceDir.relativize(file);
+                        Path targetFile = Path.of(sourceDir.getFileName().toString(),sourceDir.relativize(file).toString());
                         outputStream.putNextEntry(new ZipEntry(targetFile.toString()));
                         byte[] bytes = Files.readAllBytes(file);
                         outputStream.write(bytes, 0, bytes.length);
@@ -150,6 +152,7 @@ public class FeatureClass implements Feature{
                 }
             });
             outputStream.close();
+            
         }
         else if (type == Any.SEARCH)
         {
