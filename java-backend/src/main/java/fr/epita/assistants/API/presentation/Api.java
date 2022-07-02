@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.epita.assistants.API.response.ContentResponse;
+import fr.epita.assistants.API.response.ProjectResponse;
 import fr.epita.assistants.Singleton;
 
 @RestController
@@ -16,18 +17,20 @@ public class Api {
 		return "Greetings from Spring Boot!";
 	}
 
-	@GetMapping("/load")
-	public String loadProject(@RequestParam String path){
+	@GetMapping("/project/load")
+	public ProjectResponse loadProject(@RequestParam String path){
 		System.out.println("Loading " + path);
+		Singleton instance;
 		if (Singleton.alreadyInstantiated())
 		{
-			Singleton.getInstance(null).LoadPath(path);
+			instance = Singleton.getInstance(null);
+			instance.LoadPath(path);
 		}
 		else
 		{
-			Singleton.getInstance(path);
+			instance = Singleton.getInstance(path);
 		}
-		return "Successfull Loaded project";
+		return new ProjectResponse(path, instance.getRootNode());
 	}
 	/**
 	 * MakeActive a file in the IDE
@@ -35,10 +38,16 @@ public class Api {
 	 * @return Content of the file
 	 */
 
-	@GetMapping("/makeActive")
+	@GetMapping("/project/makeActive")
 	public ContentResponse makeActive(@RequestParam String path) {
 		String content = Singleton.getInstance(null).makeActive(path);
-		return new ContentResponse(content);
+		return new ContentResponse(path, content);
 	}
 
+	@GetMapping("/project/getContent")
+	public ContentResponse getContent(){
+		Singleton instance = Singleton.getInstance(null);
+		String content = instance.getContent();
+		return new ContentResponse(instance.getRootNode().getPath().toString(), content);
+	}
 }

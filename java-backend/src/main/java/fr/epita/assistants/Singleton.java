@@ -48,6 +48,10 @@ public final class Singleton {
         return instance;
     }
 
+    public Node getRootNode() {
+        return this.project.getRootNode();
+    }
+
     public void LoadPath(String pathToLoad) {
         Path path = fs.getPath(pathToLoad);
         this.project = ps.load(path);

@@ -1,0 +1,110 @@
+swagger: "2.0"
+info:
+  description: "This is a swagger about the PING API which is useful to communicate between the front and the back"
+  version: "1.0.0"
+  title: "Swagger PING"
+  contact:
+    email: "theo.ripoll@epita.fr"
+    name: "Theo RIPOLL"
+host: "localhost:8080"
+basePath: "/"
+tags:
+- name: "File Manipulation"
+  description: "All endpoint to manipulate files"
+
+schemes:
+- "http"
+paths:
+  /project/load:
+    get:
+      tags:
+      - "File Manipulation"
+      summary: "Load a new project from path"
+      description: ""
+      operationId: "loadProject"
+      produces:
+      - "application/json"
+      parameters:
+      - in: query
+        type: "string"
+        name: "path"
+        description: "The path to load (you should encoded with js function encoreURIComponent)"
+        required: true
+      responses:
+        "200":
+          description: "Project successfully loaded"
+          schema:
+            $ref: "#/definitions/ProjectResponse"
+        "404":
+          description: "Path not found"
+        "400":
+          description: "Path is not a valid path"
+  /project/makeActive:
+    get:
+      tags:
+      - "File Manipulation"
+      summary: "Change current working file"
+      description: ""
+      operationId: "makeActive"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "query"
+        type: "string"
+        name: "path"
+        description: "The path to load (you should encoded with js function encoreURIComponent)"
+        required: true
+      responses:
+        "200":
+          description: "Successfully opened file"
+          schema:
+            $ref : "#/definitions/ContentResponse"
+        "404":
+          description: "File not found"
+  /project/getContent:
+    get:
+      tags:
+        - "File Manipulation"
+      summary: "Return the content of the current working file"
+      description: ""
+      operationId: "getContent"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref : "#/definitions/ContentResponse"
+          
+  
+definitions:
+
+  NodeResponse:
+    type : "object"
+    properties:
+      path: 
+        type: "string"
+      isFile: 
+        type: "boolean"
+      children:
+        type: "array"
+        items:
+          $ref : "#/definitions/NodeResponse"
+      
+  
+  ProjectResponse:
+    type: "object"
+    properties:
+      path:
+        type: "string"
+      nodes:
+        $ref : "#/definitions/NodeResponse"
+        
+  ContentResponse:
+    type: "object"
+    properties:
+      path:
+        type: "string"
+      content:
+        type: "string"
+        
