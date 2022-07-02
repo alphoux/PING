@@ -11,7 +11,7 @@ import java.nio.file.Path;
  * configured instance of {@link ProjectService}.
  */
 @Given(overridden = false)
-public class MyIde {
+public class MyIde{
 
     /**
      * Init method. It must return a fully functional implementation of {@link ProjectService}.

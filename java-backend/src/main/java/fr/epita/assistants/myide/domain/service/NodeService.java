@@ -1,5 +1,7 @@
 package fr.epita.assistants.myide.domain.service;
 
+import java.nio.file.Path;
+
 import fr.epita.assistants.myide.domain.entity.Node;
 import fr.epita.assistants.utils.Given;
 
@@ -52,4 +54,13 @@ public interface NodeService {
      */
     Node move(final Node nodeToMove,
               final Node destinationFolder);
+
+     /**
+     * Read the content in the node if it's a file
+     * @param node
+     * @return the content
+     */
+    String read(final Node node);
+
+    Node findNode(final Node node, Path path);
 }

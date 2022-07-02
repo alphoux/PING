@@ -96,4 +96,36 @@ public class NodeServiceClass implements NodeService {
             destinationFolder.getChildren().add(movedNode);
         return movedNode;
     }
+
+    @Override
+    public String read(Node node) {
+        if (!node.isFile())
+            return "";
+        try {
+            String content = Files.readString(node.getPath());
+            return content;
+        }
+        catch (Exception e)
+        {
+            return "";
+        }
+       
+    }
+    @Override
+    public Node findNode(final Node node, Path path) {
+        if (node.getPath().compareTo(path) == 0)
+            return node;
+
+        for (Node child : node.getChildren())
+        {
+            if (child.getPath().compareTo(path) == 0)
+                return child;
+            Node rec = findNode(child, path);
+            if (rec != null)
+                return rec;
+        }
+        return null;
+    }
+
+
 }
