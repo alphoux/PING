@@ -1,6 +1,8 @@
 package fr.epita.assistants.entities;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -13,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
@@ -60,7 +63,7 @@ public class FeatureClass implements Feature{
                         int i = 0;
                         while (line != null) {
                             if (line.contains(tofind)) {
-                                System.out.println(file.toString()+" Line nbr:"+i+" :" + line);
+                                System.out.println(file.toString()+" Line nbr: "+i+" :" + line);
                             }
                             line = br.readLine();
                             i++;
@@ -91,20 +94,31 @@ public class FeatureClass implements Feature{
     }
 
 
-    private void recursivedelete(List<String> files, Path dir) {
+    private void recursivedelete(List<String> files, Path dir, Path root) {
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir)) {
             for (Path file : stream) {
-                if (Files.isDirectory(file)) {
-                    recursivedelete(files, file);
-                } else {
-                    if (files.contains(file.getFileName().toString())) {
+                for (String line : files) {
+                    if (file.toString().equals(root + "/" + line)) {
+                        if (Files.isDirectory(file)) {
+                            Files.walk(file)
+                                    .sorted(Comparator.reverseOrder())
+                                    .map(Path::toFile)
+                                    .forEach(File::delete);
+                        }
+                        else
+                        {
                         Files.delete(file);
+                        }
+                    } else {
+                        if (Files.isDirectory(file)) {
+                            recursivedelete(files, file, root);
+                        }
                     }
                 }
             }
         } catch (IOException | DirectoryIteratorException x) {
         }
-    }
+    } 
 
     @Override
     public @NotNull ExecutionReport execute(Project project, Object... params) {
@@ -113,21 +127,21 @@ public class FeatureClass implements Feature{
         {
 
             List<String> content_file = Files.lines(Paths.get(project.getRootNode().getPath()+ "/.myideignore")).collect(Collectors.toList());
-            recursivedelete(content_file, project.getRootNode().getPath());
+            recursivedelete(content_file, project.getRootNode().getPath(),project.getRootNode().getPath());
         }
         else if (type == Any.DIST)
         {
             List<String> content_file = Files.lines(Paths.get(project.getRootNode().getPath()+ "/.myideignore")).collect(Collectors.toList());
-            recursivedelete(content_file, project.getRootNode().getPath());
+            recursivedelete(content_file, project.getRootNode().getPath(),project.getRootNode().getPath());
             final Path sourceDir = project.getRootNode().getPath();
-            String zipFileName = "./" + project.getRootNode().getPath().getFileName().toString().concat(".zip");
+            String zipFileName = project.getRootNode().getPath().toString().concat(".zip");
             
             final ZipOutputStream outputStream = new ZipOutputStream(new FileOutputStream(zipFileName));
             Files.walkFileTree(sourceDir, new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attributes) {
                     try {
-                        Path targetFile = sourceDir.relativize(file);
+                        Path targetFile = Path.of(sourceDir.getFileName().toString(),sourceDir.relativize(file).toString());
                         outputStream.putNextEntry(new ZipEntry(targetFile.toString()));
                         byte[] bytes = Files.readAllBytes(file);
                         outputStream.write(bytes, 0, bytes.length);
@@ -138,6 +152,7 @@ public class FeatureClass implements Feature{
                 }
             });
             outputStream.close();
+            
         }
         else if (type == Any.SEARCH)
         {
