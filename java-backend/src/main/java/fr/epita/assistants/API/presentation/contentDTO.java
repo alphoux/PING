@@ -16,5 +16,9 @@ public class contentDTO {
     public contentDTO(String content) {
         this.content = content;
     }
+
+    public contentDTO() {
+        this.content = "";
+    }
     
 }
