@@ -1,10 +1,13 @@
 package fr.epita.assistants.API.presentation;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import fr.epita.assistants.API.presentation.contentDTO;
 import fr.epita.assistants.API.response.ContentResponse;
 import fr.epita.assistants.API.response.ProjectResponse;
 import fr.epita.assistants.Singleton;
@@ -30,7 +33,7 @@ public class Api {
 		{
 			instance = Singleton.getInstance(path);
 		}
-		return new ProjectResponse(path, instance.getRootNode());
+		return new ProjectResponse(path, instance.getRootNode(), instance.getAspects());
 	}
 	/**
 	 * MakeActive a file in the IDE
@@ -48,6 +51,13 @@ public class Api {
 	public ContentResponse getContent(){
 		Singleton instance = Singleton.getInstance(null);
 		String content = instance.getContent();
+		return new ContentResponse(instance.getRootNode().getPath().toString(), content);
+	}
+
+	@PostMapping("/project/updateContent")
+	public ContentResponse updateContent(@RequestBody contentDTO newContent) {
+		Singleton instance = Singleton.getInstance(null);
+		String content = instance.updateContent(newContent.getContent());
 		return new ContentResponse(instance.getRootNode().getPath().toString(), content);
 	}
 }
