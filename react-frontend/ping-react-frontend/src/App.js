@@ -8,10 +8,11 @@ function App() {
   return (
     <div className="App">
       <body>
-        <NavBar dyslexia={true}/>
+        <NavBar dyslexia={false}/>
       <Toolbar></Toolbar>
       <div className="w-2/5 h-full border-solid border-2 border-black-">
       <FileExplorer></FileExplorer>
+      <p>test abab loup</p>
       </div>
       </body>
     </div>
