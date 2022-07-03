@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import fr.epita.assistants.API.presentation.contentDTO;
 import fr.epita.assistants.API.response.ContentResponse;
 import fr.epita.assistants.API.response.ProjectResponse;
 import fr.epita.assistants.Singleton;
@@ -49,5 +50,12 @@ public class Api {
 		Singleton instance = Singleton.getInstance(null);
 		String content = instance.getContent();
 		return new ContentResponse(instance.getRootNode().getPath().toString(), content);
+	}
+
+	@PostMapping("/project/updateContent")
+	public ContentRespone updateContent(@RequestBody contentDTO newContent) {
+		Singleton instance = Singleton.getInstance(null);
+		String content = Singleton.insertContent(newContent.getContent());
+		return new contentDTO(content);
 	}
 }

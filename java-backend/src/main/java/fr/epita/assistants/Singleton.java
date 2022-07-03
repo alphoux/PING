@@ -80,4 +80,9 @@ public final class Singleton {
             return "";
         return this.ns.read(currentNode);
     }
+
+    public String updateContent(String newContent) {
+        this.ns.insertContent(this.currentNode, newContent.getBytes());
+        return newContent;
+    }
 }

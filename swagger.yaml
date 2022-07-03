@@ -11,6 +11,11 @@ basePath: "/"
 tags:
 - name: "File Manipulation"
   description: "All endpoint to manipulate files"
+- name: "Maven Commands"
+  description: "Launch maven command on the current file/project"
+- name : "Git commands"
+  description: "Launch git command on the current file/project"
+
 
 schemes:
 - "http"
@@ -75,7 +80,51 @@ paths:
           description: "OK"
           schema:
             $ref : "#/definitions/ContentResponse"
+  /project/updateContent:
+    post:
+      tags:
+        - "File Manipulation"
+      summary: "Write content into the current working file"
+      description: ""
+      operationId: "updateContent"
+      consumes:
+        - "application/json"
+      parameters:
+        - in: "body"
+          name: "Content"
+          schema:
+            $ref: "#/definitions/ContentRequest"
           
+        
+      produces:
+        - "application/json"
+        
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ContentRequest"
+        "400":
+          description: "Error"
+  
+  /maven/build:
+    get:
+      tags:
+        - "Maven Commands"
+      summary: "Build the project using maven"
+      operationId: "mavenBuild"
+      description: ""
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "It is not a maven project"
+      
+  /maven/run:
+    get:
+  /maven/stop:
+    get:
+    
   
 definitions:
 
@@ -105,6 +154,12 @@ definitions:
     properties:
       path:
         type: "string"
+      content:
+        type: "string"
+  
+  ContentRequest:
+    type : "object"
+    properties:
       content:
         type: "string"
         
