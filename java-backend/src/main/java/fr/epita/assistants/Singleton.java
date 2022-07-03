@@ -3,6 +3,8 @@ package fr.epita.assistants;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 import fr.epita.assistants.entities.NodeClass;
 import fr.epita.assistants.entities.NodeServiceClass;
@@ -11,6 +13,7 @@ import fr.epita.assistants.myide.domain.entity.Node;
 import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
+import fr.epita.assistants.myide.domain.entity.Aspect;
 
 public final class Singleton {
 
@@ -82,7 +85,18 @@ public final class Singleton {
     }
 
     public String updateContent(String newContent) {
+
         this.ns.insertContent(this.currentNode, newContent.getBytes());
         return newContent;
+    }
+
+    public List<String> getAspects() {
+        ArrayList<String> res = new ArrayList<>();
+        for (Aspect aspect : this.project.getAspects())
+        {
+            res.add(aspect.getType().toString());
+        }
+
+        return res;
     }
 }

@@ -7,6 +7,7 @@ import java.util.List;
 public class ProjectResponse {
     private String path;
     private NodeResponse nodes;
+    private List<String> aspects;
 
     public String getPath() {
         return path;
@@ -21,8 +22,20 @@ public class ProjectResponse {
         this.nodes = new NodeResponse(rootNode.getPath().toString(), rootNode.isFile(), rootNode.getChildren());;
     }
 
-    public ProjectResponse(String path, Node rootNode) {
+    
+
+    public ProjectResponse(String path, Node rootNode, List<String> aspects) {
         this.path = path;
         this.nodes = new NodeResponse(rootNode.getPath().toString(), rootNode.isFile(), rootNode.getChildren());
+        this.aspects = aspects;
+    }
+    public void setNodes(NodeResponse nodes) {
+        this.nodes = nodes;
+    }
+    public List<String> getAspects() {
+        return aspects;
+    }
+    public void setAspects(List<String> aspects) {
+        this.aspects = aspects;
     }    
 }

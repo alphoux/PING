@@ -148,6 +148,10 @@ definitions:
         type: "string"
       nodes:
         $ref : "#/definitions/NodeResponse"
+      aspects:
+        type: "array"
+        items:
+          type: "string"
         
   ContentResponse:
     type: "object"

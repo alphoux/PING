@@ -33,7 +33,7 @@ public class Api {
 		{
 			instance = Singleton.getInstance(path);
 		}
-		return new ProjectResponse(path, instance.getRootNode());
+		return new ProjectResponse(path, instance.getRootNode(), instance.getAspects());
 	}
 	/**
 	 * MakeActive a file in the IDE

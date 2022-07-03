@@ -16,9 +16,19 @@ public enum Mandatory {
     ;
 
     public enum Aspects implements Aspect.Type {
-        ANY,
-        MAVEN,
-        GIT
+        ANY("ANY"),
+        MAVEN("MAVEN"),
+        GIT("GIT");
+        private String name;
+
+        private Aspects(String name) {
+            this.name = name;
+        }
+
+        @Override
+        public String toString(){
+            return this.name;
+        }
     }
 
     public enum Features {
