@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import { useCallback, useEffect } from 'react';
 import './App.css';
 import Toolbar from './components/Toolbar.js';
 import FileExplorer from './components/FileExplorer';
@@ -6,6 +7,51 @@ import NavBar from './components/NavBar'
 import Editor from './components/Editor';
 
 function App() {
+
+  // handle what happens on key press
+  const handleKeyPress = useCallback((event) => {
+    // Shortcut Modifier
+    if (event.altKey === true) {
+      // Shortcut list
+      switch (event.key) {
+        // open button
+        case 'o':
+          alert("Back link not implemented !");
+          break;
+        // Shortcuts information
+        case 'i':
+          alert("Back link not implemented !")
+          break;
+        // Spelling
+        case 's':
+          alert("Back link not implemented !")
+          break;
+        // Build
+        case 'b':
+          alert("Back link not implemented !")
+          break;
+        // Run
+        case 'r':
+          alert("Back link not implemented !")
+          break;
+        // Stop
+        case 'e':
+          alert("Back link not implemented !")
+          break;
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener('keydown', handleKeyPress);
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
   return (
     <div className="App">
       <body>
