@@ -8,13 +8,13 @@ import Editor from './components/Editor';
 function App() {
   return (
     <div className="App">
-      <body className='flex flex-col h-full'>
+      <body>
         <NavBar dyslexia={true} />
-        <div className='flex h-full'>
-          <div className="w-1/5 h-full border-solid border-2 border-black-">
+        <div className='flex flex-row body-row'>
+          <div className="basis-1/5 flex-none border-solid border-2 border-black-">
             <FileExplorer></FileExplorer>
           </div>
-          <div className="w-4/5 h-full border-solid border-2 border-black-">
+          <div className="basis-4/5 grow flex-1 border-solid border-2 border-black-">
             <Editor/>
           </div>
         </div>

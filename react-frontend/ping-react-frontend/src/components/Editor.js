@@ -18,10 +18,7 @@ export default function Editor() {
     }
 
     return (
-        <div className='h-full'>
-            <textarea style={{resize: 'none'}} className='bg-gray-800 h-full w-full text-xl text-white text-left' onChange={handlechange}>
-                    
+            <textarea className='bg-gray-800 h-full w-full text-xl text-white text-left' onChange={handlechange}>
             </textarea>
-        </div>
     )
 }

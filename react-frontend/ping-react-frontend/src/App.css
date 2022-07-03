@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+.body-row {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+}
 
 .action-bar-btn {
   position: relative;
