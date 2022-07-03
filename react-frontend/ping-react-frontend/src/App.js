@@ -5,6 +5,7 @@ import Toolbar from './components/Toolbar.js';
 import FileExplorer from './components/FileExplorer';
 import NavBar from './components/NavBar'
 import Editor from './components/Editor';
+import spell from './components/Utils';
 
 function App() {
 
@@ -24,7 +25,7 @@ function App() {
           break;
         // Spelling
         case 's':
-          alert("Back link not implemented !")
+          spell()
           break;
         // Build
         case 'b':
