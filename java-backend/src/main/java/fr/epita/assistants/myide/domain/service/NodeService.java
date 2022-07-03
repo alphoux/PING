@@ -24,6 +24,14 @@ public interface NodeService {
                 final byte[] insertedContent);
 
     /**
+     * Insert content in the file
+     * @param node
+     * @param insertedContent
+     * @return
+     */
+    public Node insertContent(Node node, byte[] insertedContent);
+
+    /**
      * Delete the node given as parameter.
      *
      * @param node Node to remove.

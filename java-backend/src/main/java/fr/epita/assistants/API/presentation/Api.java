@@ -1,9 +1,11 @@
 package fr.epita.assistants.API.presentation;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import fr.epita.assistants.API.presentation.contentDTO;
 import fr.epita.assistants.API.response.ContentResponse;
@@ -53,9 +55,9 @@ public class Api {
 	}
 
 	@PostMapping("/project/updateContent")
-	public ContentRespone updateContent(@RequestBody contentDTO newContent) {
+	public ContentResponse updateContent(@RequestBody contentDTO newContent) {
 		Singleton instance = Singleton.getInstance(null);
-		String content = Singleton.insertContent(newContent.getContent());
-		return new contentDTO(content);
+		String content = instance.updateContent(newContent.getContent());
+		return new ContentResponse(instance.getRootNode().getPath().toString(), content);
 	}
 }

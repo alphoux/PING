@@ -29,7 +29,7 @@ public class NodeServiceClass implements NodeService {
         });
         return node;
     }
-
+    @Override
     public Node insertContent(Node node, byte[] insertedContent) {
         Exceptions.mayThrow(new ThrowingRunnable<Exception>() {
             @Override
