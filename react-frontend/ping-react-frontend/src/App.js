@@ -1,7 +1,6 @@
 import logo from './logo.svg';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './App.css';
-import Toolbar from './components/Toolbar.js';
 import FileExplorer from './components/FileExplorer';
 import NavBar from './components/NavBar'
 import Editor from './components/Editor';
@@ -53,10 +52,12 @@ function App() {
     };
   }, [handleKeyPress]);
 
-  return (
+  const [project, setProject] = useState(null)
+
+   return (
     <div className="App">
       <body>
-        <NavBar dyslexia={true} />
+        <NavBar dyslexia={true} open={setProject}/>
         <div className='flex flex-row body-row'>
           <div className="basis-1/5 flex-none border-solid border-2 border-black-">
             <FileExplorer></FileExplorer>
