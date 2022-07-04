@@ -1,10 +1,12 @@
 import React from "react"
 import Modal from 'react-modal';
 import spell from "./Utils";
-import isElectron from 'is-electron';
-var Client = require('electron-rpc/client')
-let client = new Client()
+import { channels } from '../shared/constants';
 
+const { ipcRenderer } = window.require('electron');
+ipcRenderer.on(channels.OPEN_FILE, (event, arg) => {
+    console.log(arg);
+});
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -33,15 +35,10 @@ export default class NavBar extends React.Component {
             )
         }
     }
-
+    
     openFile() {
-          client.request('some-action-without-callback')
-          
-          client.on('some-server-message', function(err, body){
-              console.log('foo:', body)
-          })
+        ipcRenderer.send(channels.OPEN_FILE);
     }
-
     render() {
         return(
         <div className="action-bar flex justify-between">
