@@ -1,5 +1,6 @@
 package fr.epita.assistants;
 
+import java.lang.reflect.Executable;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
@@ -14,6 +15,9 @@ import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.myide.domain.service.ProjectService;
 import fr.epita.assistants.myide.domain.entity.Aspect;
+import fr.epita.assistants.myide.domain.entity.Feature.ExecutionReport;
+import fr.epita.assistants.myide.domain.entity.Mandatory;
+import fr.epita.assistants.myide.domain.entity.Feature;
 
 public final class Singleton {
 
@@ -98,5 +102,13 @@ public final class Singleton {
         }
 
         return res;
+    }
+
+    public ExecutionReport mavenBuild() {
+        return this.project.getFeature(Mandatory.Features.Maven.COMPILE).get().execute(this.project);
+    }
+
+    public ExecutionReport mavenRun() {
+        return this.project.getFeature(Mandatory.Features.Maven.EXEC).get().execute(this.project);
     }
 }
