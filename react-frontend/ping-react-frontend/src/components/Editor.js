@@ -1,6 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
-import save from './Utils';
+import {save} from './Utils';
 
 function applyHighlights(text) {
     return text.split("\n").map((line, index) => {
@@ -46,8 +46,8 @@ export default class Editor extends React.Component {
     render() {
         return (
             <>
-                <div className='bg-black'>
-                    askj
+                <div className={this.props.dyslexia ?'bg-transparent text-white absolute z-20 right-5 top-5 h-fit w-fit' : 'bg-transparent text-black absolute z-20 right-5 top-5 h-fit w-fit'}>
+                    <button className='btn modal-btn' onClick={save}>Save</button>
                 </div>
                 {
                 this.props.dyslexia ? (
