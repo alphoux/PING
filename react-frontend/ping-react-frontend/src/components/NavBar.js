@@ -7,17 +7,7 @@ const { ipcRenderer } = window.require('electron');
 export default class NavBar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showing: false
-        }
-        this.setShowing = this.setShowing.bind(this)
         this.openFile = this.openFile.bind(this)
-    }
-
-    setShowing() {
-        this.setState({
-            showing: !this.state.showing
-        })
     }
 
     addOptions() {
