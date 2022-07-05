@@ -189,7 +189,8 @@ public final class Singleton {
         return makeActive(project.getRootNode().getPath().toString());
     }
 
-    public String deleteFile(String path) {
+    public String deleteFile(String pathToDelete) {
+        Path path = fs.getPath(pathToDelete);
         Node node = this.ns.findNode(this.project.getRootNode(), path);
         if (node != null)
         {
