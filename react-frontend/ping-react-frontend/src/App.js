@@ -44,6 +44,12 @@ function App() {
           break;
       }
     }
+    if (event.crtlKey === true) {
+      if (event.key === 's')
+      {
+        save();
+      }
+    }
   }, []);
 
   useEffect(() => {
