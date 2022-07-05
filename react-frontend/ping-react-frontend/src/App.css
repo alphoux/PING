@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.border {
+  height: 1px;
+  background-color: aliceblue;
+}
+
+.mr-right {
+  margin-right: 1rem;
+}
+
 table, th, td {
   padding: 5px;
 }

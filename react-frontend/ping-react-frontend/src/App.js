@@ -58,6 +58,7 @@ function App() {
 
   const [project, setProject] = useState(null)
   const [open, setOpen] = useState(false)
+  const [dyslexia, setDyslexia] = useState(false)
 
   ipcRenderer.on(channels.OPEN_FILE, async (event, arg) => {
       await axios.get('http://localhost:8080/project/load?path='+arg.filePaths[0])
@@ -69,14 +70,25 @@ function App() {
     console.log(open)
   }
 
+  function updateDyslexia() {
+    const checkbox = document.getElementById('dyslexia-check');
+    console.log(checkbox.checked)
+    setDyslexia(checkbox.checked)
+  }
+
    return (
     <div className="App">
       <body>
         <CustomModal isOpen={open} toggle={toggleOpen}/>
-        <NavBar dyslexia={true} open={setProject} shortcut={toggleOpen}/>
+        <NavBar dyslexia={dyslexia} open={setProject} shortcut={toggleOpen}/>
           <div className='flex flex-row body-row'>
             <div className="basis-1/5 flex-none border-solid border-2 border-black-">
               <FileExplorer></FileExplorer>
+              <div className='border'></div>
+              <div>
+                <h1>Dyslexia options</h1>
+                <input id='dyslexia-check' type='checkbox' onChange={updateDyslexia}></input> Enable dyslexia options
+              </div>
             </div>
             <div className="basis-4/5 grow flex-1 border-solid border-1 border-black-">
               <Editor dyslexia={true}/>
