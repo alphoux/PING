@@ -100,13 +100,13 @@ public class Api {
 	public ContentResponse createFile(@RequestParam String parentPath, @RequestParam String name) {
 		Singleton instance = Singleton.getInstance(null);
 		instance.createFile(parentPath, name);
-		return new ContentResponse(path, "");
+		return new ContentResponse(parentPath + "/" + name, "");
 	}
-	
+
 	@GetMapping("/project/createDir")
 	public ContentResponse createDir(@RequestParam String parentPath, @RequestParam String name) {
 		Singleton instance = Singleton.getInstance(null);
 		instance.createDir(parentPath, name);
-		return new ContentResponse(path, "");
+		return new ContentResponse(parentPath, "");
 	}
 }

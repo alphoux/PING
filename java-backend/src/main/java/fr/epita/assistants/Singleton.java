@@ -20,6 +20,7 @@ import fr.epita.assistants.myide.domain.entity.Feature.ExecutionReport;
 import fr.epita.assistants.myide.domain.entity.Mandatory;
 import fr.epita.assistants.myide.domain.entity.Feature;
 import fr.epita.assistants.LSP.LspClient;
+import fr.epita.assistants.myide.domain.entity.Node.Types;
 
 public final class Singleton {
 
@@ -211,7 +212,7 @@ public final class Singleton {
     {
         Path parentPath = fs.getPath(folderPath);
         Node parentNode = this.ns.findNode(this.project.getRootNode(), parentPath);
-        this.currentNode = this.ns.create(parentNode, name, File.Type.FILE);
+        this.currentNode = this.ns.create(parentNode, name, Node.Types.FILE);
         return "";
     }
 
@@ -219,7 +220,7 @@ public final class Singleton {
     {
         Path parentPath = fs.getPath(folderPath);
         Node parentNode = this.ns.findNode(this.project.getRootNode(), parentPath);
-        this.ns.create(parentNode, name, File.Type.FOLDER);
+        this.ns.create(parentNode, name, Node.Types.FOLDER);
         return "";
     }
 }
