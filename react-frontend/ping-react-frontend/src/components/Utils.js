@@ -8,11 +8,4 @@ function spell() {
   window.speechSynthesis.speak(msg)
 }
 
-function save() {
-  const text = document.getElementById("area").value;
-  axios.post('/project/updateContent', {
-    content: text,
-  })
-}
-
-export { spell, save };
+export { spell};

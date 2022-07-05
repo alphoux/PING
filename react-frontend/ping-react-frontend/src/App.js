@@ -92,13 +92,20 @@ function App() {
     setDyslexia(checkbox.checked)
   }
 
+  function save() {
+    console.log("saveeee");
+    axios.post('http://localhost:8080/project/updateContent', {
+      content: textValue,
+    })
+  }
+
 let textArea = "";
 
    return (
     <div className="App">
       <body>
         <CustomModal isOpen={open} toggle={toggleOpen}/>
-        <NavBar dyslexia={dyslexia} open={setProject} shortcut={toggleOpen}/>
+        <NavBar dyslexia={dyslexia} open={setProject} shortcut={toggleOpen} saveFunction={save}/>
           <div className='flex flex-row body-row'>
             <div className="basis-1/5 flex-none border-solid border-2 border-black-">
               <FileExplorer fs={project}></FileExplorer>

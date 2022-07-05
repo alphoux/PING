@@ -2,7 +2,7 @@ import React from "react"
 import {spell} from "./Utils";
 import axios from "axios";
 import { channels } from '../shared/constants';
-import {save} from './Utils';
+import {save} from '../App';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -75,7 +75,7 @@ export default class NavBar extends React.Component {
             </div>
             {this.addOptions()}
             <div>
-                <button className='btn action-bar-btn' onClick={save}>Save</button>
+                <button className='btn action-bar-btn' onClick={this.props.saveFunction}>Save</button>
                <button id='build-btn' className="btn action-bar-btn" onClick={this.buildProject}>{this.state.build ? <i id='build-load' class="fa fa-spinner fa-spin mr-right"></i>:null}Build</button>
                <button id='run-btn' className="btn action-bar-btn" onClick={this.runProject}>Run</button>
                <button id='stop-btn' className="btn action-bar-btn" onClick={this.stopProject}>Stop</button>
