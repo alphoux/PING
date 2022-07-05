@@ -118,7 +118,9 @@ public enum Mandatory {
             /**
              * mvn dependency:tree
              */
-            TREE
+            TREE,
+
+            STOP
         }
     }
 }
