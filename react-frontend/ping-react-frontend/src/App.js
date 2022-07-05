@@ -5,6 +5,8 @@ import FileExplorer from './components/FileExplorer';
 import NavBar from './components/NavBar'
 import Editor from './components/Editor';
 import spell from './components/Utils';
+import axios from "axios";
+import { channels } from './shared/constants';
 
 function App() {
 
@@ -53,6 +55,13 @@ function App() {
   }, [handleKeyPress]);
 
   const [project, setProject] = useState(null)
+
+  const { ipcRenderer } = window.require('electron');
+
+  ipcRenderer.on(channels.OPEN_FILE, async (event, arg) => {
+      await axios.get('http://localhost:8080/project/load?path='+arg.filePaths[0])
+        .then((response) => setProject(response.data));
+  });
 
    return (
     <div className="App">
