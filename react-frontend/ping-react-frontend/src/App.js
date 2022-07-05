@@ -5,6 +5,10 @@ import FileExplorer from './components/FileExplorer';
 import NavBar from './components/NavBar'
 import Editor from './components/Editor';
 import spell from './components/Utils';
+import axios from "axios";
+import CustomModal from './components/CustomModal';
+import { channels } from './shared/constants';
+const { ipcRenderer } = window.require('electron');
 
 function App() {
 
@@ -16,7 +20,7 @@ function App() {
       switch (event.key) {
         // open button
         case 'o':
-          alert("Back link not implemented !");
+          ipcRenderer.send(channels.OPEN_FILE);
           break;
         // Shortcuts information
         case 'i':
@@ -53,19 +57,31 @@ function App() {
   }, [handleKeyPress]);
 
   const [project, setProject] = useState(null)
+  const [open, setOpen] = useState(false)
+
+  ipcRenderer.on(channels.OPEN_FILE, async (event, arg) => {
+      await axios.get('http://localhost:8080/project/load?path='+arg.filePaths[0])
+        .then((response) => setProject(response.data));
+  });
+
+  function toggleOpen() {
+    setOpen(!open)
+    console.log(open)
+  }
 
    return (
     <div className="App">
       <body>
-      <NavBar dyslexia={true} open={setProject}/>
-        <div className='flex flex-row body-row'>
-          <div className="basis-1/5 flex-none border-solid border-2 border-black-">
-            <FileExplorer></FileExplorer>
+        <CustomModal isOpen={open} toggle={toggleOpen}/>
+        <NavBar dyslexia={true} open={setProject} shortcut={toggleOpen}/>
+          <div className='flex flex-row body-row'>
+            <div className="basis-1/5 flex-none border-solid border-2 border-black-">
+              <FileExplorer></FileExplorer>
+            </div>
+            <div className="basis-4/5 grow flex-1 border-solid border-1 border-black-">
+              <Editor dyslexia={true}/>
+            </div>
           </div>
-          <div className="basis-4/5 grow flex-1 border-solid border-1 border-black-">
-            <Editor dyslexia={true}/>
-          </div>
-        </div>
       </body>
     </div>
   );

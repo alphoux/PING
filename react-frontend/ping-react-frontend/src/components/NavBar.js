@@ -1,29 +1,14 @@
 import React from "react"
-import Modal from 'react-modal';
 import spell from "./Utils";
+import axios from "axios";
 import { channels } from '../shared/constants';
 
 const { ipcRenderer } = window.require('electron');
-ipcRenderer.on(channels.OPEN_FILE, (event, arg) => {
-    console.log(arg);
-});
-
-Modal.setAppElement(document.getElementById('root'));
 
 export default class NavBar extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            showing: false
-        }
-        this.setShowing = this.setShowing.bind(this)
         this.openFile = this.openFile.bind(this)
-    }
-
-    setShowing() {
-        this.setState({
-            showing: !this.state.showing
-        })
     }
 
     addOptions() {
@@ -39,12 +24,23 @@ export default class NavBar extends React.Component {
     openFile() {
         ipcRenderer.send(channels.OPEN_FILE);
     }
+
+    async build() {
+        await axios.get('http://localhost:8080/project/build')
+        .then((response) => {
+            if (response.status == 400) {
+                alert("Project is not a maven project, unable to build")
+                return;
+            }
+        })
+    }
+
     render() {
         return(
         <div className="action-bar flex justify-between">
             <div >
                 <button id='open-btn' className="btn action-bar-btn" onClick={this.openFile}>Open</button>
-                <button className="btn action-bar-btn" onClick={this.setShowing}>Shortcuts</button>
+                <button className="btn action-bar-btn" onClick={this.props.shortcut}>Shortcuts</button>
             </div>
             {this.addOptions()}
             <div>
@@ -52,7 +48,7 @@ export default class NavBar extends React.Component {
                <button id='run-btn' className="btn action-bar-btn">Run</button>
                <button id='stop-btn' className="btn action-bar-btn">Stop</button>
             </div>
-            <Modal isShowing={this.state.showing} toggle={this.setShowing}/>
+            
         </div>
         )
     }
