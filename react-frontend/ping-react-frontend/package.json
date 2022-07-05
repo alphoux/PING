@@ -11,8 +11,8 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
     "@testing-library/user-event": "^13.5.0",
+    "ace-builds": "^1.7.1",
     "autoprefixer": "^10.4.7",
-    "axios": "^0.27.2",
     "buffer": "^6.0.3",
     "concurrently": "^7.2.2",
     "daisyui": "^2.15.4",
@@ -26,6 +26,7 @@
     "postcss-cli": "^9.1.0",
     "process": "^0.11.10",
     "react": "^18.2.0",
+    "react-ace": "^10.1.0",
     "react-app-rewired": "^2.2.1",
     "react-dom": "^18.2.0",
     "react-modal": "^3.15.1",
@@ -67,6 +68,7 @@
     ]
   },
   "devDependencies": {
+    "axios": "^0.27.2",
     "tailwindcss": "^3.1.4"
   },
   "proxy": "http://localhost:3000"
