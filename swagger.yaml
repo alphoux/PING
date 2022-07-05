@@ -187,8 +187,10 @@ definitions:
       children:
         type: "array"
         items:
-          $ref : "#/definitions/NodeResponse"
-      
+          type: "object"
+          
+      id:
+        type: "integer"
   
   ProjectResponse:
     type: "object"

@@ -10,11 +10,14 @@ import java.util.List;
 
 public class NodeClass implements Node {
 
+    public static int population = 0;
     private Path path_;
     private List<Node> childrens_ = new ArrayList<>();
     private Types type_;
-
+    private int id_;
     public NodeClass(Path path) {
+        this.id_ = population;
+        population++;
         path_ = path;
         File dir = new File(path.toString());
         File[] content = dir.listFiles();
@@ -45,6 +48,11 @@ public class NodeClass implements Node {
     @Override
     public List<@NotNull Node> getChildren() {
         return childrens_;
+    }
+
+    @Override
+    public int getId() {
+        return this.id_;
     }
 
 }

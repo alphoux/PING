@@ -9,6 +9,7 @@ public class NodeResponse {
     private String path;
     private boolean isFile;
     private List<NodeResponse> children;
+    private int id;
     
     public String getPath() {
         return path;
@@ -29,15 +30,23 @@ public class NodeResponse {
         this.children = children;
     }
 
-    public NodeResponse(String path, boolean isFile, List<Node> children) {
+
+    public NodeResponse(String path, boolean isFile, List<Node> children, int id) {
+        this.id = id;
         this.path = path;
         this.isFile = isFile;
         this.children = new ArrayList<>();
 
         for (Node node : children)
         {
-            this.children.add(new NodeResponse(node.getPath().toString(), node.isFile(), node.getChildren()));
+            this.children.add(new NodeResponse(node.getPath().toString(), node.isFile(), node.getChildren(), node.getId()));
         }
+    }
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }    
     
 }

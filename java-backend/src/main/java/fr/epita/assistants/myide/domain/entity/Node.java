@@ -9,6 +9,8 @@ import java.util.List;
 @Given()
 public interface Node {
 
+    int getId();
+
     /**
      * @return The Node path.
      */

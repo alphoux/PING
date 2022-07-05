@@ -19,14 +19,14 @@ public class ProjectResponse {
         return nodes;
     }
     public void setNodes(Node rootNode) {
-        this.nodes = new NodeResponse(rootNode.getPath().toString(), rootNode.isFile(), rootNode.getChildren());;
+        this.nodes = new NodeResponse(rootNode.getPath().toString(), rootNode.isFile(), rootNode.getChildren(), rootNode.getId());
     }
 
     
 
     public ProjectResponse(String path, Node rootNode, List<String> aspects) {
         this.path = path;
-        this.nodes = new NodeResponse(rootNode.getPath().toString(), rootNode.isFile(), rootNode.getChildren());
+        this.nodes = new NodeResponse(rootNode.getPath().toString(), rootNode.isFile(), rootNode.getChildren(), rootNode.getId());
         this.aspects = aspects;
     }
     public void setNodes(NodeResponse nodes) {
