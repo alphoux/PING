@@ -1,5 +1,6 @@
 import React from "react"
 import spell from "./Utils";
+import axios from "axios";
 import { channels } from '../shared/constants';
 
 const { ipcRenderer } = window.require('electron');
@@ -22,6 +23,16 @@ export default class NavBar extends React.Component {
     
     openFile() {
         ipcRenderer.send(channels.OPEN_FILE);
+    }
+
+    async build() {
+        await axios.get('http://localhost:8080/project/build')
+        .then((response) => {
+            if (response.status == 400) {
+                alert("Project is not a maven project, unable to build")
+                return;
+            }
+        })
     }
 
     render() {
