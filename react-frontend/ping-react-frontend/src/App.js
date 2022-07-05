@@ -5,6 +5,9 @@ import FileExplorer from './components/FileExplorer';
 import NavBar from './components/NavBar'
 import Editor from './components/Editor';
 import spell from './components/Utils';
+import axios from "axios";
+import { channels } from './shared/constants';
+const { ipcRenderer } = window.require('electron');
 
 function App() {
 
@@ -16,7 +19,7 @@ function App() {
       switch (event.key) {
         // open button
         case 'o':
-          alert("Back link not implemented !");
+          ipcRenderer.send(channels.OPEN_FILE);
           break;
         // Shortcuts information
         case 'i':
@@ -53,6 +56,11 @@ function App() {
   }, [handleKeyPress]);
 
   const [project, setProject] = useState(null)
+
+  ipcRenderer.on(channels.OPEN_FILE, async (event, arg) => {
+      await axios.get('http://localhost:8080/project/load?path='+arg.filePaths[0])
+        .then((response) => setProject(response.data));
+  });
 
    return (
     <div className="App">
