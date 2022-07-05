@@ -95,4 +95,18 @@ public class Api {
 		String content = instance.deleteFile(path);
 		return new ContentResponse(instance.getCurrentNode().getPath().toString(), content);
 	}
+
+	@GetMapping("/project/createFile")
+	public ContentResponse createFile(@RequestParam String parentPath, @RequestParam String name) {
+		Singleton instance = Singleton.getInstance(null);
+		instance.createFile(parentPath, name);
+		return new ContentResponse(path, "");
+	}
+	
+	@GetMapping("/project/createDir")
+	public ContentResponse createDir(@RequestParam String parentPath, @RequestParam String name) {
+		Singleton instance = Singleton.getInstance(null);
+		instance.createDir(parentPath, name);
+		return new ContentResponse(path, "");
+	}
 }

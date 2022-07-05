@@ -204,4 +204,22 @@ public final class Singleton {
         }
         return "";
     }
+    /*
+     * Create a new file and make it active
+     */
+    public String createFile(String folderPath, String name)
+    {
+        Path parentPath = fs.getPath(folderPath);
+        Node parentNode = this.ns.findNode(this.project.getRootNode(), parentPath);
+        this.currentNode = this.ns.create(parentNode, name, File.Type.FILE);
+        return "";
+    }
+
+    public String createDir(String folderPath, String name)
+    {
+        Path parentPath = fs.getPath(folderPath);
+        Node parentNode = this.ns.findNode(this.project.getRootNode(), parentPath);
+        this.ns.create(parentNode, name, File.Type.FOLDER);
+        return "";
+    }
 }

@@ -157,6 +157,59 @@ paths:
           schema:
             $ref : "#/definitions/ContentResponse"
             
+  /project/createFile:
+    get:
+      tags:
+        - "File Manipulation"
+      summary: "Create a file"
+      description: "createFile"
+      parameters:
+        - in: "query"
+          type: "string"
+          name: "parentPath"
+          description: "Path of the parent directory"
+          required: true
+          
+        - in: "query"
+          type: "string"
+          name: "name"
+          description: "Name of the file"
+          required: true
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref : "#/definitions/ContentResponse"
+        
+  /project/createDir:
+    get:
+      tags:
+        - "File Manipulation"
+      summary: "Create a Directory"
+      description: "createDirectory"
+      parameters:
+        - in: "query"
+          type: "string"
+          name: "parentPath"
+          description: "Path of the parent directory"
+          required: true
+          
+        - in: "query"
+          type: "string"
+          name: "name"
+          description: "Name of the directory"
+          required: true
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref : "#/definitions/ContentResponse"
+  
+  
   /maven/build:
     get:
       tags:
