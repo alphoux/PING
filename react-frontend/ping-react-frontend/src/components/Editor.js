@@ -1,21 +1,26 @@
 import React from 'react';
-
+import $ from 'jquery';
+import save from './Utils';
 
 function applyHighlights(text) {
     return text.split("\n").map((line, index) => {
         if (index % 2 === 0) {
-            return '<mark className="w-full" style={{color: "transparent",}}></mark>'
+            return line
         } else {
-            return '<mark className="w-full" style={{color: "transparent", backgroundColor: "#FFA07A"}}></mark>'
+            return '<mark style={{color: "transparent", background-color: "yellow",}}>'+line+'</mark>'
         } 
     }).join("\n");
 }
 
 function handleScrolldyslexia(){
-    let scrollTop = document.getElementById("area").scrollTop();
-    document.getElementById("back").scrollTop(scrollTop);
+    var scrollTop = $('textarea').scrollTop();
+    $('#back').scrollTop(scrollTop);
 }
 
+function handleScrolldyslexia2(){
+    var scrollTop = $('#back').scrollTop();
+    $('textarea').scrollTop(scrollTop);
+}
 export default class Editor extends React.Component {
     constructor(props) {
         super(props);
@@ -23,7 +28,7 @@ export default class Editor extends React.Component {
         this.handlechange = this.handlechange.bind(this);
         this.handlechangedyslexia = this.handlechangedyslexia.bind(this);
     }
-    
+   
     handlechange(e) {
         this.setState({code:document.getElementById("area").value});
     }
@@ -37,15 +42,19 @@ export default class Editor extends React.Component {
     }
 
 
+
     render() {
         return (
             <>
-            {
+                <div className='bg-black'>
+                    askj
+                </div>
+                {
                 this.props.dyslexia ? (
                     <div  className='h-full w-full text-xl text-white text-left bg-white'>
                         <textarea className='h-full w-full text-xl text-white text-left absolute z-10' id="area" style={{ outline: "none", resize: "none", color:"#444",backgroundColor:"transparent" }}  onChange={this.handlechangedyslexia} onScroll={handleScrolldyslexia}>
                         </textarea>
-                        <div className='h-full w-full text-xl text-white text-left'id="back" style={{overflow:"auto",backgroundColor:"#ffff"}}>
+                        <div className='h-full w-full text-xl text-white text-left'id="back" style={{overflow:"auto",backgroundColor:"#ffff"}} onScroll={handleScrolldyslexia2}>
                             <div className='h-full w-full text-xl text-white text-left'id="highlight" style={{whiteSpace: "pre-wrap", wordWrap: "break-word",color:"transparent"}}>
                             </div>
                         </div>
@@ -53,7 +62,7 @@ export default class Editor extends React.Component {
                 )
                     :
                     (
-                        <textarea id="area" style={{ outline: "none", resize: "none", }} className='bg-gray-800 h-full w-full text-xl text-white text-left' onChange={this.handlechange()}>
+                        <textarea id="area" style={{ outline: "none", resize: "none", }} className='bg-gray-800 h-full w-full text-xl text-white text-left' onChange={this.handlechange}>
                         </textarea>
                     )
             }
