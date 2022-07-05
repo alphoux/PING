@@ -1,5 +1,6 @@
 import React from 'react';
 import $ from 'jquery';
+import save from './Utils';
 
 function applyHighlights(text) {
     return text.split("\n").map((line, index) => {
@@ -29,10 +30,6 @@ export default class Editor extends React.Component {
         this.save = this.save.bind(this);
     }
    
-    save(){
-        console.log(this.state.code);
-    }
-
     handlechange(e) {
         this.setState({code:document.getElementById("area").value});
     }

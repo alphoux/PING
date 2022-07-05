@@ -4,7 +4,7 @@ import './App.css';
 import FileExplorer from './components/FileExplorer';
 import NavBar from './components/NavBar'
 import Editor from './components/Editor';
-import spell from './components/Utils';
+import {spell, save} from './components/Utils';
 import axios from "axios";
 import CustomModal from './components/CustomModal';
 import { channels } from './shared/constants';

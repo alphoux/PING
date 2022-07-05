@@ -1,5 +1,5 @@
 import React from "react"
-import spell from "./Utils";
+import {spell} from "./Utils";
 import axios from "axios";
 import { channels } from '../shared/constants';
 
