@@ -28,7 +28,7 @@ const CustomModal = (props) => {
           <tr> <td>Dyslexia spelling:</td> <td>Alt+s</td> </tr>
           <tr> <td>Build project:</td> <td>Alt+b</td> </tr>
           <tr> <td>Run project:</td> <td>Alt+t</td> </tr>
-          <tr> <td>Stop project:</td> <td>e</td> </tr>
+          <tr> <td>Stop project:</td> <td>Alt+e</td> </tr>
         </table>
         <div className='text-center'>
           <button className='btn modal-btn' onClick={props.toggle}>Close</button>
