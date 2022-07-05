@@ -2,6 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+table, th, td {
+  padding: 5px;
+}
+
+table {
+  border-spacing: 1rem;
+}
+
+.modal-btn {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
 .modal {
   position: absolute;
   left: 0;

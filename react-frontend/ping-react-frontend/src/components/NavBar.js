@@ -1,12 +1,8 @@
 import React from "react"
-import Modal from 'react-modal';
 import spell from "./Utils";
-import axios from "axios";
 import { channels } from '../shared/constants';
 
 const { ipcRenderer } = window.require('electron');
-
-Modal.setAppElement(document.getElementById('root'));
 
 export default class NavBar extends React.Component {
     constructor(props) {
@@ -43,7 +39,7 @@ export default class NavBar extends React.Component {
         <div className="action-bar flex justify-between">
             <div >
                 <button id='open-btn' className="btn action-bar-btn" onClick={this.openFile}>Open</button>
-                <button className="btn action-bar-btn" onClick={this.setShowing}>Shortcuts</button>
+                <button className="btn action-bar-btn" onClick={this.props.shortcut}>Shortcuts</button>
             </div>
             {this.addOptions()}
             <div>
@@ -51,7 +47,7 @@ export default class NavBar extends React.Component {
                <button id='run-btn' className="btn action-bar-btn">Run</button>
                <button id='stop-btn' className="btn action-bar-btn">Stop</button>
             </div>
-            <Modal isShowing={this.state.showing} toggle={this.setShowing}/>
+            
         </div>
         )
     }
