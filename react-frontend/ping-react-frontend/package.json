@@ -41,13 +41,12 @@
   },
   "main": "electron-starter.js",
   "scripts": {
-    "start": "npm run watch:css && react-app-rewired start",
-    "build": "npm run build:css && react-scripts build",
+    "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:css": "npx postcss src/assets/tailwind.css -o src/assets/main.css",
-    "watch:css": "npx postcss src/assets/tailwind.css -o src/assets/main.css",
-    "electron": "electron ."
+    "ebuild": "npm run build && node_modules/.bin/build"
   },
   "eslintConfig": {
     "extends": [
