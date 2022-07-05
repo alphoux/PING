@@ -39,6 +39,7 @@ public final class Singleton {
         Path path = fs.getPath(pathToLoad);
         this.project = ps.load(path);
         this.ns = ps.getNodeService();
+        this.currentNode = this.project.getRootNode();
 
         for (Node node : this.project.getRootNode().getChildren())
         {
@@ -117,11 +118,15 @@ public final class Singleton {
         return this.project.getRootNode();
     }
 
+    public Node getCurrentNode() {
+        return this.currentNode;
+    }
+
     public void LoadPath(String pathToLoad) {
         Path path = fs.getPath(pathToLoad);
         this.project = ps.load(path);
         this.ns = ps.getNodeService();
-
+        this.currentNode = this.project.getRootNode();
         for (Node node : this.project.getRootNode().getChildren())
         {
             System.out.println(node.getPath().toString());
@@ -173,5 +178,29 @@ public final class Singleton {
 
     public ExecutionReport mavenRun() {
         return this.project.getFeature(Mandatory.Features.Maven.EXEC).get().execute(this.project);
+    }
+
+    public ExecutionReport mavenStop() {
+        return this.project.getFeature(Mandatory.Features.Maven.STOP).get().execute(this.project);
+    }
+
+    public String deleteCurrent() {
+        this.ns.delete(currentNode);
+        return makeActive(project.getRootNode().getPath().toString());
+    }
+
+    public String deleteFile(String path) {
+        Node node = this.ns.findNode(this.project.getRootNode(), path);
+        if (node != null)
+        {
+            if (node == currentNode)
+                return deleteCurrent();
+            else
+            {
+                this.ns.delete(node);
+                return "";
+            }
+        }
+        return "";
     }
 }

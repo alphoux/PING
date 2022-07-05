@@ -36,6 +36,7 @@ import fr.epita.assistants.myide.domain.entity.Project;
 public class FeatureClass implements Feature{
     
     Type type;
+    long current_pid;
     
     FeatureClass(Type type){
         this.type = type;
@@ -85,7 +86,7 @@ public class FeatureClass implements Feature{
 
         try {
             Process process = processBuilder.start();
-            
+            current_pid = process.pid();
             BufferedReader reader =
                     new BufferedReader(new InputStreamReader(process.getInputStream()));
             int exitCode = process.waitFor();
@@ -226,6 +227,10 @@ public class FeatureClass implements Feature{
         {
             exec_cmd("mvn exec"+ concat_args(params),project.getRootNode().getPath().toString());
 
+        }
+        else if (type == Maven.STOP)
+        {
+            exec_cmd("kill -9 " + current_pid, project.getRootNode().getPath().toString());
         }
         else if (type == Maven.TREE) 
         {

@@ -121,7 +121,42 @@ paths:
             $ref: "#/definitions/ContentRequest"
         "400":
           description: "Error"
-  
+          
+  /project/deleteCurrent:
+    get:
+      tags:
+        - "File Manipulation"
+      summary: "Delete the current file and return content of the new active file"
+      description: ""
+      operationId: "deleteCurrent"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref : "#/definitions/ContentResponse"
+  /project/deleteFile:
+    get:
+      tags:
+        - "File Manipulation"
+      summary: "Delete the file"
+      description: ""
+      operationId: "deleteFile"
+      parameters:
+        - in: "query"
+          type: "string"
+          name: "path"
+          description: "The path to delete (you should encoded with js function encoreURIComponent)"
+          required: true
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref : "#/definitions/ContentResponse"
+            
   /maven/build:
     get:
       tags:
