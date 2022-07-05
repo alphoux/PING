@@ -13,6 +13,7 @@ import fr.epita.assistants.API.response.ContentResponse;
 import fr.epita.assistants.API.response.ProjectResponse;
 import fr.epita.assistants.Singleton;
 import fr.epita.assistants.API.response.ExecutionReportResponse;
+import fr.epita.assistants.LSP.LspClient;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:3000")
@@ -48,6 +49,13 @@ public class Api {
 	public ContentResponse makeActive(@RequestParam String path) {
 		String content = Singleton.getInstance(null).makeActive(path);
 		return new ContentResponse(path, content);
+	}
+
+	@GetMapping("/project/getStructure")
+	public ProjectResponse getStructure()
+	{
+		Singleton instance = Singleton.getInstance(null);
+		return new ProjectResponse(instance.getPath().toString(), instance.getRootNode(), instance.getAspects());
 	}
 
 	@GetMapping("/project/getContent")

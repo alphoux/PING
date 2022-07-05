@@ -6,6 +6,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.File;
 
 import fr.epita.assistants.entities.NodeClass;
 import fr.epita.assistants.entities.NodeServiceClass;
@@ -18,6 +19,7 @@ import fr.epita.assistants.myide.domain.entity.Aspect;
 import fr.epita.assistants.myide.domain.entity.Feature.ExecutionReport;
 import fr.epita.assistants.myide.domain.entity.Mandatory;
 import fr.epita.assistants.myide.domain.entity.Feature;
+import fr.epita.assistants.LSP.LspClient;
 
 public final class Singleton {
 
@@ -28,6 +30,7 @@ public final class Singleton {
     private Project project;
     private NodeService ns;
     private Node currentNode;
+    private LspClient lspClient;
 
     private Singleton(String pathToLoad) {
         System.out.println("Instantiate Singleton");
@@ -41,6 +44,61 @@ public final class Singleton {
         {
             System.out.println(node.getPath().toString());
         }
+        /*
+        //Start Server
+        Runnable launchScript = new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(2000);
+                }
+                catch (Exception e)
+                {
+                    System.out.println(e);
+                }
+                String filePath = new File("").getAbsolutePath();
+                filePath = filePath.concat("/LSP/startServer.sh");
+                System.out.println("Launching");
+                System.out.println(filePath);
+                try {
+                    
+                    Runtime.getRuntime().exec(filePath);
+                }
+                catch(Exception e)
+                {
+                    System.out.println(e);
+                }
+            }
+        };
+
+        Thread threadScript = new Thread(launchScript);
+        threadScript.start();
+
+        try {
+            this.lspClient = new LspClient(pathToLoad);
+        }
+
+        catch (Exception e)
+		{
+			System.out.println(e);
+		}
+        
+        Runnable lspServer = new Runnable() {
+			@Override
+			public void run() {
+				try {
+					lspClient.processMessages();
+					lspClient.close();
+					}
+					catch (Exception e)
+					{
+						System.out.println(e);
+					}
+			}
+		};
+		Thread newThread = new Thread(lspServer);
+        newThread.start();
+        */
     }
 
     public static boolean alreadyInstantiated() {
@@ -102,6 +160,11 @@ public final class Singleton {
         }
 
         return res;
+    }
+
+    public Path getPath()
+    {
+        return this.currentNode.getPath();
     }
 
     public ExecutionReport mavenBuild() {

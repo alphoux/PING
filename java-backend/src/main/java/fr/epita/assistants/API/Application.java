@@ -9,12 +9,15 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 
 import fr.epita.assistants.myide.domain.service.ProjectService;
+
+import java.io.Console;
 import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import fr.epita.assistants.myide.domain.entity.Project;
 import fr.epita.assistants.myide.domain.service.NodeService;
 import fr.epita.assistants.MyIde;
+import fr.epita.assistants.LSP.LspClient;
 
 @SpringBootApplication
 public class Application {

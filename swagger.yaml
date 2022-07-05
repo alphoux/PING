@@ -44,6 +44,21 @@ paths:
           description: "Path not found"
         "400":
           description: "Path is not a valid path"
+  /project/getStructure:
+    get:
+      tags:
+        - "File Manipulation"
+      summary: "Get file structure of project without reloading it"
+      description: ""
+      operationId: "getStructure"
+      produces:
+      - "application/json"
+      responses:
+        "200":
+          description: "Project successfully loaded"
+          schema:
+            $ref: "#/definitions/ProjectResponse"
+      
   /project/makeActive:
     get:
       tags:
@@ -114,16 +129,50 @@ paths:
       summary: "Build the project using maven"
       operationId: "mavenBuild"
       description: ""
+      produces:
+        - "application/json"
       responses:
         "200":
           description: "OK"
+          schema:
+            $ref : "#/definitions/ExecutionReport"
         "400":
           description: "It is not a maven project"
       
   /maven/run:
     get:
+      tags:
+        - "Maven Commands"
+      summary: "Run the project using maven"
+      operationId: "mavenRun"
+      description: ""
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ExecutionReport"
+        "400":
+          description: "It is not a maven project"
+          
   /maven/stop:
     get:
+      tags:
+        - "Maven Commands"
+      summary: "Stop the project"
+      operationId: "mavenStop"
+      description: ""
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "OK"
+          schema:
+            $ref: "#/definitions/ExecutionReport"
+        "400":
+          description: "It is not a maven project"
+          
     
   
 definitions:
@@ -167,3 +216,8 @@ definitions:
       content:
         type: "string"
         
+  ExecutionReport:
+    type: "object"
+    properties:
+      isSuccess:
+        type: "boolean"
