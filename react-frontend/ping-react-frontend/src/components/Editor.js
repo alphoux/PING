@@ -27,7 +27,6 @@ export default class Editor extends React.Component {
         this.state = {code:""};
         this.handlechange = this.handlechange.bind(this);
         this.handlechangedyslexia = this.handlechangedyslexia.bind(this);
-        this.save = this.save.bind(this);
     }
    
     handlechange(e) {
@@ -47,6 +46,9 @@ export default class Editor extends React.Component {
     render() {
         return (
             <>
+                <div className='bg-black'>
+                    askj
+                </div>
                 {
                 this.props.dyslexia ? (
                     <div  className='h-full w-full text-xl text-white text-left bg-white'>
