@@ -2,23 +2,29 @@ import React from 'react';
 
 
 
-export default function Editor() {
-    const [code, setCode] = React.useState('');
-
-    //let infofile = await fetch('localhost:8080/project/getContent')    
-    // onSelect={
-    // const selection = window.getSelection();
-    //const selectedText = selection.toString();
-    //}
-    //
-    //
-
-    function handlechange(e) {
-        setCode(e.target.value);
+export default class Editor extends React.Component {
+    constructor(props) {
+        super(props);
+        this.code = "";
+        this.handlechange = this.handlechange.bind(this);
     }
 
-    return (
-            <textarea className='bg-gray-800 h-full w-full text-xl text-white text-left' onChange={handlechange}>
+    handlechange(e) {
+        this.code = e.target.value;
+    }
+
+    handledyslexia(e) {
+        if (this.props.dyslexia)
+        {
+            return ""
+        }
+    }
+
+    render()
+    {
+        return (
+            <textarea style={{outline: "none",resize: "none",}} className='bg-gray-800 h-full w-full text-xl text-white text-left' onChange={this.handlechange}>
             </textarea>
-    )
+        )
+    }
 }

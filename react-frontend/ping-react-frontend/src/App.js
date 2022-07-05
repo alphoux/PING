@@ -61,8 +61,8 @@ function App() {
           <div className="basis-1/5 flex-none border-solid border-2 border-black-">
             <FileExplorer></FileExplorer>
           </div>
-          <div className="basis-4/5 grow flex-1 border-solid border-2 border-black-">
-            <Editor/>
+          <div className="basis-4/5 grow flex-1 border-solid border-1 border-black-">
+            <Editor dyslexia={true}/>
           </div>
         </div>
       </body>
