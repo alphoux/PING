@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import fr.epita.assistants.API.presentation.contentDTO;
 import fr.epita.assistants.API.response.ContentResponse;
 import fr.epita.assistants.API.response.ProjectResponse;
@@ -14,6 +15,7 @@ import fr.epita.assistants.Singleton;
 import fr.epita.assistants.API.response.ExecutionReportResponse;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 public class Api {
 
 	@GetMapping("/")
