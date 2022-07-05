@@ -59,7 +59,7 @@ function App() {
       <body>
       <NavBar dyslexia={true} open={setProject}/>
         <div className='flex flex-row body-row'>
-          <div className="basis-1/5 flex-none border-solid border-2 border-black-">
+          <div className="basis-1/5 flex-none border-solid border-1 border-slate-600">
             <FileExplorer></FileExplorer>
           </div>
           <div className="basis-4/5 grow flex-1 border-solid border-1 border-black-">
