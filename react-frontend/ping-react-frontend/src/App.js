@@ -8,7 +8,16 @@ import {spell, save} from './components/Utils';
 import axios from "axios";
 import CustomModal from './components/CustomModal';
 import { channels } from './shared/constants';
+import AceEditor from "react-ace";
+
+import "ace-builds/src-noconflict/mode-java";
+import "ace-builds/src-noconflict/theme-github";
+import "ace-builds/src-noconflict/ext-language_tools";
+
 const { ipcRenderer } = window.require('electron');
+
+
+
 
 function App() {
 
@@ -65,6 +74,7 @@ function App() {
   const [project, setProject] = useState(null)
   const [open, setOpen] = useState(false)
   const [dyslexia, setDyslexia] = useState(false)
+  const [textValue, setTextValue] = useState("")
 
   ipcRenderer.on(channels.OPEN_FILE, async (event, arg) => {
       await axios.get('http://localhost:8080/project/load?path='+arg.filePaths[0])
@@ -82,6 +92,8 @@ function App() {
     setDyslexia(checkbox.checked)
   }
 
+let textArea = "";
+
    return (
     <div className="App">
       <body>
@@ -97,7 +109,26 @@ function App() {
               </div>
             </div>
             <div className="basis-4/5 grow flex-1 border-solid border-1 border-black-">
-              <Editor dyslexia={true}/>
+              {dyslexia ? 
+                <Editor dyslexia={true} onChange={(value) => {
+                  console.log(value);
+                  setTextValue(value);
+                }}
+                value={textValue}
+                />
+                :
+                <AceEditor
+                className=""
+                mode="java"
+                theme="github"
+                name="Ace Editor"
+                onChange={(value) => {
+                  setTextValue(value);
+                }}
+                value={textValue}
+                editorProps={{ $blockScrolling: true }}
+              />
+              }
             </div>
           </div>
       </body>
