@@ -62,14 +62,14 @@ public class Api {
 	public ContentResponse getContent(){
 		Singleton instance = Singleton.getInstance(null);
 		String content = instance.getContent();
-		return new ContentResponse(instance.getRootNode().getPath().toString(), content);
+		return new ContentResponse(instance.getCurrentNode().getPath().toString(), content);
 	}
 
 	@PostMapping("/project/updateContent")
 	public ContentResponse updateContent(@RequestBody contentDTO newContent) {
 		Singleton instance = Singleton.getInstance(null);
 		String content = instance.updateContent(newContent.getContent());
-		return new ContentResponse(instance.getRootNode().getPath().toString(), content);
+		return new ContentResponse(instance.getCurrentNode().getPath().toString(), content);
 	}
 
 	@GetMapping("/maven/build")
@@ -80,5 +80,19 @@ public class Api {
 	@GetMapping("/maven/run")
 	public ExecutionReportResponse mavenRun() {
 		return new ExecutionReportResponse(Singleton.getInstance(null).mavenRun().isSuccess());
+	}
+
+	@GetMapping("/project/deleteCurrent")
+	public ContentResponse deleteCurrent() {
+		Singleton instance = Singleton.getInstance(null);
+		String content = instance.deleteCurrent();
+		return new ContentResponse(instance.getCurrentNode().getPath().toString(), content);
+	}
+
+	@GetMapping("/project/deleteFile")
+	public ContentResponse deleteFile(@RequestParam String path) {
+		Singleton instance = Singleton.getInstance(null);
+		String content = instance.deleteFile(path);
+		return new ContentResponse(instance.getCurrentNode().getPath().toString(), content);
 	}
 }

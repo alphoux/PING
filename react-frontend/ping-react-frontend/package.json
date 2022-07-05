@@ -20,6 +20,7 @@
     "electron-rpc": "^2.0.1",
     "foreman": "^3.0.1",
     "is-electron": "^2.2.1",
+    "jquery": "^3.6.0",
     "path-browserify": "^1.0.1",
     "postcss": "^8.4.14",
     "postcss-cli": "^9.1.0",
@@ -29,7 +30,6 @@
     "react-dom": "^18.2.0",
     "react-modal": "^3.15.1",
     "react-scripts": "5.0.1",
-    "react-speech-kit": "^3.0.1",
     "tailwind": "^4.0.0",
     "wait-on": "^6.0.1",
     "web-vitals": "^2.1.4"
@@ -41,11 +41,13 @@
   },
   "main": "electron-starter.js",
   "scripts": {
-    "dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "start": "npm run watch:css && react-app-rewired start",
+    "build": "npm run build:css && react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "build:css": "npx postcss src/assets/tailwind.css -o src/assets/main.css",
+    "watch:css": "npx postcss src/assets/tailwind.css -o src/assets/main.css",
+    "electron": "electron ."
   },
   "eslintConfig": {
     "extends": [
