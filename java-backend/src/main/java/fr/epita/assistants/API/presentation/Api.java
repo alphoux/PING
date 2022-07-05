@@ -11,6 +11,7 @@ import fr.epita.assistants.API.presentation.contentDTO;
 import fr.epita.assistants.API.response.ContentResponse;
 import fr.epita.assistants.API.response.ProjectResponse;
 import fr.epita.assistants.Singleton;
+import fr.epita.assistants.API.response.ExecutionReportResponse;
 
 @RestController
 public class Api {
@@ -59,5 +60,15 @@ public class Api {
 		Singleton instance = Singleton.getInstance(null);
 		String content = instance.updateContent(newContent.getContent());
 		return new ContentResponse(instance.getRootNode().getPath().toString(), content);
+	}
+
+	@GetMapping("/maven/build")
+	public ExecutionReportResponse mavenBuild() {
+		return new ExecutionReportResponse(Singleton.getInstance(null).mavenBuild().isSuccess());
+	}
+
+	@GetMapping("/maven/run")
+	public ExecutionReportResponse mavenRun() {
+		return new ExecutionReportResponse(Singleton.getInstance(null).mavenRun().isSuccess());
 	}
 }
