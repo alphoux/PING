@@ -108,7 +108,7 @@ let textArea = "";
         <NavBar dyslexia={dyslexia} open={setProject} shortcut={toggleOpen} saveFunction={save}/>
           <div className='flex flex-row body-row'>
             <div className="basis-1/5 flex-none border-solid border-2 border-black-">
-              <FileExplorer fs={project}></FileExplorer>
+              <FileExplorer fs={project} onChange={setTextValue}></FileExplorer>
               <div className='border'></div>
               <div>
                 <h1>Dyslexia options</h1>
