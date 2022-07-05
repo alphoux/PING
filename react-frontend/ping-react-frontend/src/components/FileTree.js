@@ -3,6 +3,7 @@ import TreeView from '@mui/lab/TreeView';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import TreeItem from '@mui/lab/TreeItem';
+import axios from "axios";
 
 function nameFromPath(fullPath) {
   console.log(fullPath)
@@ -14,7 +15,14 @@ function nameFromPath(fullPath) {
 export default function FileTree(props) {
   console.log(props);
   const renderTree = (nodes) => (
-    <TreeItem key={nodes.id} nodeId={nodes.id} label={nameFromPath(nodes.path)}>
+    <TreeItem key={nodes.id} nodeId={nodes.id} label={nameFromPath(nodes.path)} onClick={nodes.file ? () => {
+      axios.get("http://localhost:8080/project/makeActive?path=" + encodeURIComponent(nodes.path)).then((result) => {
+        const area = document.getElementById('area');
+        area.value = result.data.content;
+      }).catch((err) => {
+        console.log(err);
+      });
+    } : null}>
       {Array.isArray(nodes.children)
         ? nodes.children.map((node) => renderTree(node))
         : null}
