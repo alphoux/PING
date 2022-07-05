@@ -5,7 +5,7 @@ export default class FileExplorer extends React.Component {
     render() {
         return (
             <div>
-              <FileTree/>
+              <FileTree fs={this.props.fs}/>
             </div>
         )
     }

@@ -89,7 +89,7 @@ function App() {
         <NavBar dyslexia={dyslexia} open={setProject} shortcut={toggleOpen}/>
           <div className='flex flex-row body-row'>
             <div className="basis-1/5 flex-none border-solid border-2 border-black-">
-              <FileExplorer></FileExplorer>
+              <FileExplorer fs={project}></FileExplorer>
               <div className='border'></div>
               <div>
                 <h1>Dyslexia options</h1>

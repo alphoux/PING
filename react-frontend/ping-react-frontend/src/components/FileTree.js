@@ -11,30 +11,8 @@ function nameFromPath(fullPath) {
   return name
 }
 
-const data = {
-  id: 'root',
-  path: 'project',
-  children: [
-    {
-      id: '1',
-      path: "project/src",
-      children: []
-    },
-    {
-      id: '2',
-      path: "project/src/lib",
-      children: [
-        {
-          id: '3',
-          path: 'project/src/lib/kipu.yolo',
-          children: []
-        },
-      ],
-    },
-  ],
-};
-
-export default function FileTree() {
+export default function FileTree(props) {
+  console.log(props);
   const renderTree = (nodes) => (
     <TreeItem key={nodes.id} nodeId={nodes.id} label={nameFromPath(nodes.path)}>
       {Array.isArray(nodes.children)
@@ -51,7 +29,7 @@ export default function FileTree() {
       defaultExpandIcon={<ChevronRightIcon />}
       sx={{ height: 110, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
     >
-      {renderTree(data)}
+      {props.fs == null ? null : renderTree(props.fs.nodes)}
     </TreeView>
   );
 }
