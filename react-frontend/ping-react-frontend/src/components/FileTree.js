@@ -27,7 +27,7 @@ export default function FileTree(props) {
       defaultCollapseIcon={<ExpandMoreIcon />}
       defaultExpanded={['root']}
       defaultExpandIcon={<ChevronRightIcon />}
-      sx={{ height: 110, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
+      sx={{ height: 450, flexGrow: 1, maxWidth: 400, overflowY: 'auto' }}
     >
       {props.fs == null ? null : renderTree(props.fs.nodes)}
     </TreeView>
