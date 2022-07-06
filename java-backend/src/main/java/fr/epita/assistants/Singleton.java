@@ -208,9 +208,13 @@ public final class Singleton {
     /*
      * Create a new file and make it active
      */
-    public String createFile(String folderPath, String name)
+    public String createFile(String name)
     {
-        Path parentPath = fs.getPath(folderPath);
+        Path parentPath = this.getCurrentNode().getPath();
+        if (this.getCurrentNode().isFile())
+        {
+            parentPath = parentPath.getParent();
+        }
         Node parentNode = this.ns.findNode(this.project.getRootNode(), parentPath);
         this.currentNode = this.ns.create(parentNode, name, Node.Types.FILE);
         return "";
