@@ -118,14 +118,12 @@ let textArea = "";
             <div className="basis-4/5 grow flex-1 border-solid border-1 border-black-">
               {dyslexia ? 
                 <Editor dyslexia={true} onChange={(value) => {
-                  console.log(value);
                   setTextValue(value);
                 }}
                 value={textValue}
                 />
                 :
                 <AceEditor
-                className=""
                 mode="java"
                 theme="github"
                 name="Ace Editor"
@@ -134,6 +132,10 @@ let textArea = "";
                 }}
                 value={textValue}
                 editorProps={{ $blockScrolling: true }}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                }}
               />
               }
             </div>
