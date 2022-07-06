@@ -22,8 +22,14 @@ const { ipcRenderer } = window.require('electron');
 
 function App() {
 
+  const [project, setProject] = useState(null)
+  const [open, setOpen] = useState(false)
+  const [dyslexia, setDyslexia] = useState(false)
+  const [textValue, setTextValue] = useState("")
+  const [currentPath, setCurrentPath] = useState("")
+
   // handle what happens on key press
-  const handleKeyPress = useCallback((event) => {
+  const handleKeyPress = useCallback(async (event) => {
     // Shortcut Modifier
     if (event.altKey === true) {
       // Shortcut list
@@ -34,7 +40,7 @@ function App() {
           break;
         // Shortcuts information
         case 'i':
-          alert("Back link not implemented !")
+          setOpen(!open)
           break;
         // Spelling
         case 's':
@@ -42,15 +48,36 @@ function App() {
           break;
         // Build
         case 'b':
-          alert("Back link not implemented !")
+          await axios.get('http://localhost:8080/maven/build')
+          .then((response) => {
+              if (response.status == 400) {
+                  alert("Project is not a maven project, unable to build")
+                  return;
+              }
+          })
+          .catch((e) => console.log(e))
           break;
         // Run
         case 'r':
-          alert("Back link not implemented !")
+          await axios.get('http://localhost:8080/maven/run')
+          .then((response) => {
+              if (response.status == 400) {
+                  alert("Project is not a maven project, unable to build")
+                  return;
+              }
+          })
+          .catch((e) => console.log(e))
           break;
         // Stop
         case 'e':
-          alert("Back link not implemented !")
+          await axios.get('http://localhost:8080/maven/stop')
+          .then((response) => {
+              if (response.status == 400) {
+                  alert("Project is not a maven project, unable to build")
+                  return;
+              }
+          })
+          .catch((e) => console.log(e))
           break;
       }
     }
@@ -71,12 +98,6 @@ function App() {
       document.removeEventListener('keydown', handleKeyPress);
     };
   }, [handleKeyPress]);
-
-  const [project, setProject] = useState(null)
-  const [open, setOpen] = useState(false)
-  const [dyslexia, setDyslexia] = useState(false)
-  const [textValue, setTextValue] = useState("")
-  const [currentPath, setCurrentPath] = useState("")
 
   ipcRenderer.on(channels.OPEN_FILE, async (event, arg) => {
       await axios.get('http://localhost:8080/project/load?path='+arg.filePaths[0])

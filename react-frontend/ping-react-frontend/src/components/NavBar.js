@@ -32,7 +32,7 @@ export default class NavBar extends React.Component {
 
     async buildProject() {
         this.setState({build: true})
-        await axios.get('http://localhost:8080/project/build')
+        await axios.get('http://localhost:8080/maven/build')
         .then((response) => {
             if (response.status == 400) {
                 alert("Project is not a maven project, unable to build")
@@ -44,7 +44,7 @@ export default class NavBar extends React.Component {
     }
 
     async runProject() {
-        await axios.get('http://localhost:8080/project/run')
+        await axios.get('http://localhost:8080/maven/run')
         .then((response) => {
             if (response.status == 400) {
                 alert("Project is not a maven project, unable to run")
@@ -55,7 +55,7 @@ export default class NavBar extends React.Component {
     }
 
     async stopProject() {
-        await axios.get('http://localhost:8080/project/stop')
+        await axios.get('http://localhost:8080/maven/stop')
         .then((response) => {
             if (response.status == 400) {
                 alert("Project is not a maven project, unable to run")
