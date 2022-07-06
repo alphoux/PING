@@ -13,6 +13,7 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/mode-java";
 import "ace-builds/src-noconflict/theme-github";
 import "ace-builds/src-noconflict/ext-language_tools";
+import FormDialog from './components/FormDialog';
 
 const { ipcRenderer } = window.require('electron');
 
@@ -75,6 +76,7 @@ function App() {
   const [open, setOpen] = useState(false)
   const [dyslexia, setDyslexia] = useState(false)
   const [textValue, setTextValue] = useState("")
+  const [currentPath, setCurrentPath] = useState("")
 
   ipcRenderer.on(channels.OPEN_FILE, async (event, arg) => {
       await axios.get('http://localhost:8080/project/load?path='+arg.filePaths[0])
@@ -99,6 +101,22 @@ function App() {
     })
   }
 
+  function createFile(enteredName) {
+    axios.get("http://localhost:8080/project/createFile?name=" + enteredName).then(() => {
+      axios.get("http://localhost:8080/project/getStructure").then((res) => {
+        setProject(res.data)
+      })
+    });
+  }
+
+  function deleteFile() {
+    axios.get("http://localhost:8080/project/deleteCurrent").then(() => {
+        axios.get("http://localhost:8080/project/getStructure").then((res) => {
+          setProject(res.data)
+        })
+    })
+  }
+
 let textArea = "";
 
    return (
@@ -109,6 +127,12 @@ let textArea = "";
           <div className='flex flex-row body-row'>
             <div className="basis-1/5 flex-none border-solid border-2 border-black-">
               <FileExplorer fs={project} onChange={setTextValue}></FileExplorer>
+              <div className="grid grid-cols-2 place-content-around">
+              <FormDialog onCreated={createFile}></FormDialog>
+                <button className="w-50" onClick={deleteFile}>
+                Delete File
+                </button>
+              </div>
               <div className='border'></div>
               <div>
                 <h1>Dyslexia options</h1>
@@ -118,14 +142,12 @@ let textArea = "";
             <div className="basis-4/5 grow flex-1 border-solid border-1 border-black-">
               {dyslexia ? 
                 <Editor dyslexia={true} onChange={(value) => {
-                  console.log(value);
                   setTextValue(value);
                 }}
                 value={textValue}
                 />
                 :
                 <AceEditor
-                className=""
                 mode="java"
                 theme="github"
                 name="Ace Editor"
@@ -134,6 +156,10 @@ let textArea = "";
                 }}
                 value={textValue}
                 editorProps={{ $blockScrolling: true }}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                }}
               />
               }
             </div>

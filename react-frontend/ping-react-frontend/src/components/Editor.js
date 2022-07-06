@@ -5,11 +5,18 @@ import $ from 'jquery';
 function applyHighlights(text) {
     return text.split("\n").map((line, index) => {
         if (index % 2 === 0) {
-            return line
+            return <><mark style={{color:"transparent",backgroundColor:"lavender",}}>{line}</mark><br></br></>; 
         } else {
-            return '<mark style={{color: "transparent", background-color: "yellow",}}>'+line+'</mark>'
+            return <><mark style={{color: "transparent", "background-color": "yellow",}}> {line} </mark><br></br></>
         } 
-    }).join("\n");
+    });
+}
+
+function tohtml(text)
+{
+    var e = document.createElement('div');
+    e.innerHTML = text;
+    return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
 }
 
 function handleScrolldyslexia(){
@@ -44,30 +51,20 @@ export default class Editor extends React.Component {
 
 
     render() {
-        //console.log(this.props.value);
         return (
             <>
-                {
-                this.props.dyslexia ? (
-                    <div  className='h-full w-full text-xl text-white text-left bg-white'>
-                        <textarea className='h-full w-full text-xl text-white text-left absolute z-10' id="area" style={{ outline: "none", resize: "none", color:"#444",backgroundColor:"transparent" }}  onChange={(value) => {
-                            
-                            this.props.onChange(value.target.value);
-                            this.handlechangedyslexia(null);
-                            }} onScroll={handleScrolldyslexia} value={this.props.value}>
-                        </textarea>
-                        <div className='h-full w-full text-xl text-white text-left'id="back" style={{overflow:"auto",backgroundColor:"#ffff"}} onScroll={handleScrolldyslexia2}>
-                            <div className='h-full w-full text-xl text-white text-left'id="highlight" style={{whiteSpace: "pre-wrap", wordWrap: "break-word",color:"transparent"}}>
-                            </div>
+                <div className='h-full w-full text-xl text-white text-left bg-white'>
+                    <textarea className='h-full w-full text-xl text-white text-left absolute z-10' id="area" style={{ outline: "none", resize: "none", color: "#444", backgroundColor: "transparent" }} onChange={(value) => {
+                        this.props.onChange(value.target.value);
+                        //this.handlechangedyslexia(value);
+                    }} onScroll={handleScrolldyslexia} value={this.props.value}>
+                    </textarea>
+                    <div className='h-full w-full text-xl text-white text-left' id="back" style={{ overflow: "auto", backgroundColor: "#ffff" }} onScroll={handleScrolldyslexia2}>
+                        <div className='h-full w-full text-xl text-white text-left' id="highlight" style={{ whiteSpace: "pre-wrap", wordWrap: "break-word", color: "transparent" }}>
+                            {applyHighlights(this.props.value)}
                         </div>
                     </div>
-                )
-                    :
-                    (
-                        <textarea id="area" style={{ outline: "none", resize: "none", }} className='bg-gray-800 h-full w-full text-xl text-white text-left' onChange={this.handlechange}>
-                        </textarea>
-                    )
-            }
+                </div>
             </>
         )
     }
